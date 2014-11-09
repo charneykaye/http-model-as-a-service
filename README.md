@@ -18,7 +18,7 @@ TODO: Write This
 
 ## License
 
-Count.js is freely distributable under the terms of the [MIT license](LICENSE).
+HTTP Model-as-a-Service is freely distributable under the terms of the [MIT license](LICENSE).
 
 [license-image]: http://img.shields.io/badge/license-MIT-blue.svg?style=flat
 [license-url]: LICENSE
