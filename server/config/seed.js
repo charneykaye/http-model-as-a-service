@@ -35,7 +35,7 @@ function generate_random_data() {
  * @returns {Long|Timestamp} before which records expire
  */
 function records_expire_before() {
-  return moment().subtract('seconds', ORDER_EXPIRE_SECONDS);
+  return moment().subtract(ORDER_EXPIRE_SECONDS, 'seconds');
 }
 
 /**
