@@ -9,12 +9,13 @@
 'use strict';
 
 var mongoose = require('mongoose'),
-    Schema = mongoose.Schema;
+  Schema = mongoose.Schema;
 
 var orderSchema = new Schema({
   name: String,
   info: String,
-  active: Boolean
+  purchase_number: Number,
+  amount: Number
 });
 
 module.exports = mongoose.model('order', orderSchema);
