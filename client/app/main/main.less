@@ -7,6 +7,22 @@
   border-top: 1px solid #E5E5E5;
 }
 
+h1 {
+  a.btn.create {
+    img {
+      width:20px;
+      height:20px;
+    }
+    background-color: lighten(@pop-color,20);
+    border-color: darken(@pop-color,10);
+    margin-left: 0.4em;
+    opacity: 0.4;
+    &:hover {
+      opacity: 1.0;
+    }
+  }
+}
+
 ul.list_of_orders {
   padding-left: 0;
   li {
@@ -18,7 +34,7 @@ ul.list_of_orders {
     list-style: none;
     margin-bottom: 0.5em;
     &.current {
-      font-weight:bold;
+      font-weight: bold;
       background-color: @invert-bg-color;
       color: @invert-text-color;
     }

@@ -31,6 +31,18 @@ angular.module('httpModelAsAServiceApp')
     };
 
     /**
+     * Create a new order
+     * @param {*} attributes
+     */
+    $scope.create = function (attributes) {
+      if (typeof attributes === 'object') {
+
+      } else {
+        $scope.current_order = {};
+      }
+    };
+
+    /**
      * Show one order
      * @param {String} id
      */
