@@ -17,6 +17,11 @@ ul.list_of_orders {
     padding: 0.5em;
     list-style: none;
     margin-bottom: 0.5em;
+    &.current {
+      font-weight:bold;
+      background-color: @invert-bg-color;
+      color: @invert-text-color;
+    }
     &:hover {
       background-color: lighten(@pop-color, 40);
     }
