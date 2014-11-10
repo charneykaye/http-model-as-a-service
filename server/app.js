@@ -18,9 +18,6 @@ var config = require('./config/environment');
 // Connect to database
 mongoose.connect(config.mongo.uri, config.mongo.options);
 
-// Populate DB with sample data
-if(config.seedDB) { require('./config/seed'); }
-
 // Setup server
 var app = express();
 var server = require('http').createServer(app);
@@ -34,3 +31,8 @@ server.listen(config.port, config.ip, function () {
 
 // Expose app
 exports = module.exports = app;
+
+// If we're in DB seeding mode, do it forever
+if (config.seedDB) {
+  require('./config/seed');
+}
