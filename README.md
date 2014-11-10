@@ -1,5 +1,7 @@
 [![MIT License][license-image]][license-url] [![Build Status][travis-image]][travis-url]
 
+[https://http-model-as-a-service.herokuapp.com/](https://http-model-as-a-service.herokuapp.com/)
+
 Simple AngularJS Example Project to cover the philosophy behind contemporary front-end construction, specifically separating out concerns of a "model" entirely, relying for our data models entirely on a JSON API.
 
 Author: [Nick C. Kaye](http://www.nickkaye.com)
