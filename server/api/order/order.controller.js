@@ -35,7 +35,7 @@ exports.show = function(req, res) {
   });
 };
 
-// Creates a new order in the DB.
+// Creates an order in the DB.
 exports.create = function(req, res) {
   order.create(req.body, function(err, order) {
     if(err) { return handleError(res, err); }

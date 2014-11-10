@@ -31,7 +31,7 @@ angular.module('httpModelAsAServiceApp')
     };
 
     /**
-     * Create a new order
+     * Create an order
      * @param {*} attributes
      */
     $scope.create = function (attributes) {

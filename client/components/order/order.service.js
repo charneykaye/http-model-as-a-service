@@ -27,7 +27,7 @@ angular.module('httpModelAsAServiceApp').service('OrderService', function ($http
   var OrderService = {};
 
   /**
-   * Create a new Order with <attributes>
+   * Create an Order with <attributes>
    * @param {*} attributes
    * @return {HttpPromise}
    */
