@@ -1,32 +1,28 @@
 ###
+
 Order Model-as-a-Service
-#
+
 Using $http Model-as-a-Service in AngularJS
 @author Nick Kaye <nick.c.kaye@gmail.com>
 @repository https://github.com/nickckaye/http-model-as-a-service
+
 ###
 angular.module 'httpModelAsAServiceApp'
-.service 'Order', ($http, $rootScope) ->
+.service 'Order', ($http) ->
   'use strict'
 
   _orders = {}
   _ordersLoaded = false
 
-  ###*
-  * @typedef {*} Order
-  * @property _id
-  * @property name
-  * @property amount
-   ###
   Order = {}
 
-  ###*
-  * Create a new Order
-  * @param attributes
-  * @return {Order}
-   ###
-  Order.create = (name,amount) ->
-    $http.post()
+  ###
+  Create a new Order
+  @param {*} attributes
+  @returns {HttpPromise}
+  ###
+  Order.create = (attributes) ->
+    $http.post('/api/orders')
 
   ###
   Get Order by _id
@@ -52,9 +48,9 @@ angular.module 'httpModelAsAServiceApp'
   Order.delete = (_id) ->
     (if (_id of _orders) then _orders[_id] else null)
 
-  ###*
-  * Refresh the list of orders from the server
-   ###
+  ###
+  Refresh the list of orders from the server
+  ###
   Order.refresh = () ->
     $http.get()
 
