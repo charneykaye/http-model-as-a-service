@@ -7,7 +7,8 @@
  */
 'use strict';
 var mongoose = require('mongoose')
-  , Schema = mongoose.Schema;
+  , Schema = mongoose.Schema
+  , autoIncrement = require('mongoose-auto-increment');
 
 /**
  * @typedef {*} Order
@@ -43,10 +44,13 @@ orderSchema.pre("save", function (next) {
     return next(new Error("Amount must be a number."));
   }
   this.created_at = Date.now();
-  // TODO: increment this purchase number globally
-  this.purchase_number = Number();
   next();
 });
+
+/**
+ * Auto-increment purchase_number
+ */
+orderSchema.plugin(autoIncrement.plugin, {model: 'order', field: 'purchase_number', startAt: 100,});
 
 /**
  * Export Mongoose model

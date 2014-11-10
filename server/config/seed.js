@@ -15,8 +15,9 @@ var async = require('async')
   , moment = require('moment')
   , Order = require('../api/order/order.model')
   , REPEAT_INTERVAL_MS = 10000
-  , ORDER_EXPIRE_SECONDS = 3600 * 24
-  , GENERATE_RECORDS_COUNT = 10;
+  , ORDER_EXPIRE_SECONDS = 3600
+  , GENERATE_RECORDS_COUNT = 10
+  , interval;
 
 /**
  * Generate a random
@@ -36,6 +37,14 @@ function generate_random_data() {
  */
 function records_expire_before() {
   return moment().subtract(ORDER_EXPIRE_SECONDS, 'seconds');
+}
+
+/**
+ * @param {Function} done callback
+ */
+function destroy_all_records(done) {
+  Order.find({})
+    .remove(done);
 }
 
 /**
@@ -73,7 +82,16 @@ function run_seed_generation(done) {
 }
 
 /**
+ * Begin seed generation
+ */
+function begin_seed_generation() {
+  interval = setInterval(run_seed_generation, REPEAT_INTERVAL_MS);
+}
+
+/**
  * Run the seed generation every X milliseconds
  * @type {*|Object|number}
  */
-var repeat = setInterval(run_seed_generation, REPEAT_INTERVAL_MS);
+destroy_all_records(function () {
+  begin_seed_generation();
+});

@@ -11,16 +11,14 @@
 // Set default node environment to development
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
-var express = require('express');
-var mongoose = require('mongoose');
-var config = require('./config/environment');
-
-// Connect to database
-mongoose.connect(config.mongo.uri, config.mongo.options);
-
-// Setup server
-var app = express();
-var server = require('http').createServer(app);
+var express = require('express')
+  , mongoose = require('mongoose')
+  , autoIncrement = require('mongoose-auto-increment')
+  , config = require('./config/environment')
+  , connection = mongoose.connect(config.mongo.uri, config.mongo.options)
+  , app = express()
+  , server = require('http').createServer(app);
+autoIncrement.initialize(connection);
 require('./config/express')(app);
 require('./routes')(app);
 
