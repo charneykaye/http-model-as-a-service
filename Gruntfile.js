@@ -561,7 +561,9 @@ module.exports = function (grunt) {
         },
         files: {
           '<%= yeoman.client %>/index.html': [
-              ['{.tmp,<%= yeoman.client %>}/{app,components}/**/*.js',
+              [
+                '{.tmp,<%= yeoman.client %>}/{components}/**/*.js',
+                '{.tmp,<%= yeoman.client %>}/{app}/**/*.js',
                '!{.tmp,<%= yeoman.client %>}/app/app.js',
                '!{.tmp,<%= yeoman.client %>}/{app,components}/**/*.spec.js',
                '!{.tmp,<%= yeoman.client %>}/{app,components}/**/*.mock.js']
@@ -573,8 +575,8 @@ module.exports = function (grunt) {
       less: {
         options: {
           transform: function(filePath) {
-            filePath = filePath.replace('/client/app/', '');
             filePath = filePath.replace('/client/components/', '');
+            filePath = filePath.replace('/client/app/', '');
             return '@import \'' + filePath + '\';';
           },
           starttag: '// injector',
