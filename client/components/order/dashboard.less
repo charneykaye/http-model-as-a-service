@@ -11,7 +11,6 @@
     background-color: lighten(@pop-color, 35);
   }
   &.current, &.current:hover {
-    font-weight: bold;
     background-color: @invert-bg-color;
     color: @invert-text-color;
     cursor: default;
@@ -32,6 +31,7 @@
     padding-left: 0;
     li {
       .order_selection;
+      font-weight: bold;
       padding: 0.5em;
       list-style: none;
       margin-bottom: 0.5em;
