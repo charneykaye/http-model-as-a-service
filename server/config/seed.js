@@ -12,6 +12,7 @@
 
 var async = require('async')
   , chance = require('chance')
+  , moment = require('moment')
   , Order = require('../api/order/order.model')
   , REPEAT_INTERVAL_MS = 10000
   , ORDER_EXPIRE_SECONDS = 3600 * 24
@@ -31,10 +32,10 @@ function generate_random_data() {
 }
 
 /**
- * @returns {Number} seconds (since epoch) before which records expire
+ * @returns {Long|Timestamp} before which records expire
  */
-function records_expire_before_seconds() {
-  return Date.now() - ORDER_EXPIRE_SECONDS;
+function records_expire_before() {
+  return moment().subtract('seconds', ORDER_EXPIRE_SECONDS);
 }
 
 /**
@@ -42,7 +43,7 @@ function records_expire_before_seconds() {
  */
 function destroy_expired_records(done) {
   Order.find({})
-    .where('created_at').lt(records_expire_before_seconds())
+    .where('created_at').lt(records_expire_before())
     .remove(done);
 }
 
