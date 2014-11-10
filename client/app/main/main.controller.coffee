@@ -1,3 +1,9 @@
+###
+Using $http Model-as-a-Service in AngularJS
+@author Nick Kaye <nick.c.kaye@gmail.com>
+@repository https://github.com/outrightmental/meks
+###
+
 'use strict'
 
 angular.module 'httpModelAsAServiceApp'
@@ -6,7 +12,6 @@ angular.module 'httpModelAsAServiceApp'
 
   $http.get('/api/orders').success (awesomeorders) ->
     $scope.awesomeorders = awesomeorders
-
 
   $scope.addorder = ->
     return if $scope.neworder is ''

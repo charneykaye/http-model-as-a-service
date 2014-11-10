@@ -1,6 +1,10 @@
 /**
  * Populate DB with sample data on server start
  * to disable, edit config/environment/index.js, and set `seedDB: false`
+ *
+ * Using $http Model-as-a-Service in AngularJS
+ * @author Nick Kaye <nick.c.kaye@gmail.com>
+ * @repository https://github.com/outrightmental/meks
  */
 
 'use strict';

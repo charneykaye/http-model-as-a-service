@@ -1,4 +1,8 @@
 /**
+ * Using $http Model-as-a-Service in AngularJS
+ * @author Nick Kaye <nick.c.kaye@gmail.com>
+ * @repository https://github.com/outrightmental/meks
+ *
  * Main application routes
  */
 
@@ -20,4 +24,5 @@ module.exports = function(app) {
     .get(function(req, res) {
       res.sendfile(app.get('appPath') + '/index.html');
     });
+
 };

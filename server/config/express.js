@@ -1,5 +1,9 @@
 /**
  * Express configuration
+ *
+ * Using $http Model-as-a-Service in AngularJS
+ * @author Nick Kaye <nick.c.kaye@gmail.com>
+ * @repository https://github.com/outrightmental/meks
  */
 
 'use strict';
@@ -25,7 +29,7 @@ module.exports = function(app) {
   app.use(bodyParser.json());
   app.use(methodOverride());
   app.use(cookieParser());
-  
+
   if ('production' === env) {
     app.use(favicon(path.join(config.root, 'public', 'favicon.ico')));
     app.use(express.static(path.join(config.root, 'public')));

@@ -1,8 +1,14 @@
+###
+Using $http Model-as-a-Service in AngularJS
+@author Nick Kaye <nick.c.kaye@gmail.com>
+@repository https://github.com/outrightmental/meks
+###
+
 'use strict'
 
 angular.module 'httpModelAsAServiceApp'
 .factory 'Modal', ($rootScope, $modal) ->
-  
+
   ###
   Opens a modal
   @param  {Object} scope      - an object to be merged with modal's scope
@@ -19,12 +25,12 @@ angular.module 'httpModelAsAServiceApp'
       windowClass: modalClass
       scope: modalScope
 
-  
+
   # Public API here
-  
-  # Confirmation modals 
+
+  # Confirmation modals
   confirm:
-    
+
     ###
     Create a function to open a delete confirmation modal (ex. ng-click='myModalFn(name, arg1, arg2...)')
     @param  {Function} del - callback, ran when delete is confirmed
@@ -32,7 +38,7 @@ angular.module 'httpModelAsAServiceApp'
     ###
     delete: (del) ->
       del = del or angular.noop
-      
+
       ###
       Open a delete confirmation modal
       @param  {String} name   - name or info to show on modal
