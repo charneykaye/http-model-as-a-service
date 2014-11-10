@@ -1,4 +1,4 @@
-// Generated on 2014-11-09 using generator-angular-fullstack 2.0.13
+// Generated on 2014-11-10 using generator-angular-fullstack 2.0.13
 'use strict';
 
 module.exports = function (grunt) {
@@ -95,19 +95,6 @@ module.exports = function (grunt) {
           '<%= yeoman.client %>/{app,components}/*',
           '<%= yeoman.client %>/{app,components}/**/*.jade'],
         tasks: ['jade']
-      },
-      coffee: {
-        files: [
-          '<%= yeoman.client %>/{app,components}/**/*.{coffee,litcoffee,coffee.md}',
-          '!<%= yeoman.client %>/{app,components}/**/*.spec.{coffee,litcoffee,coffee.md}'
-        ],
-        tasks: ['newer:coffee', 'injector:scripts']
-      },
-      coffeeTest: {
-        files: [
-          '<%= yeoman.client %>/{app,components}/**/*.spec.{coffee,litcoffee,coffee.md}'
-        ],
-        tasks: ['karma']
       },
       gruntfile: {
         files: ['Gruntfile.js']
@@ -423,14 +410,12 @@ module.exports = function (grunt) {
     // Run some tasks in parallel to speed up the build process
     concurrent: {
       server: [
-        'coffee',
         'jade',
-        'less'
+        'less',
       ],
       test: [
-        'coffee',
         'jade',
-        'less'
+        'less',
       ],
       debug: {
         tasks: [
@@ -442,7 +427,6 @@ module.exports = function (grunt) {
         }
       },
       dist: [
-        'coffee',
         'jade',
         'less',
         'imagemin',
@@ -508,26 +492,6 @@ module.exports = function (grunt) {
       }
     },
 
-    // Compiles CoffeeScript to JavaScript
-    coffee: {
-      options: {
-        sourceMap: true,
-        sourceRoot: ''
-      },
-      server: {
-        files: [{
-          expand: true,
-          cwd: 'client',
-          src: [
-            '{app,components}/**/*.coffee',
-            '!{app,components}/**/*.spec.coffee'
-          ],
-          dest: '.tmp',
-          ext: '.js'
-        }]
-      }
-    },
-
     // Compiles Less to CSS
     less: {
       options: {
@@ -561,9 +525,7 @@ module.exports = function (grunt) {
         },
         files: {
           '<%= yeoman.client %>/index.html': [
-              [
-                '{.tmp,<%= yeoman.client %>}/{components}/**/*.js',
-                '{.tmp,<%= yeoman.client %>}/{app}/**/*.js',
+              ['{.tmp,<%= yeoman.client %>}/{app,components}/**/*.js',
                '!{.tmp,<%= yeoman.client %>}/app/app.js',
                '!{.tmp,<%= yeoman.client %>}/{app,components}/**/*.spec.js',
                '!{.tmp,<%= yeoman.client %>}/{app,components}/**/*.mock.js']
@@ -575,8 +537,8 @@ module.exports = function (grunt) {
       less: {
         options: {
           transform: function(filePath) {
-            filePath = filePath.replace('/client/components/', '');
             filePath = filePath.replace('/client/app/', '');
+            filePath = filePath.replace('/client/components/', '');
             return '@import \'' + filePath + '\';';
           },
           starttag: '// injector',

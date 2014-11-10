@@ -9,7 +9,7 @@
     "registerSocketsFile": "server/config/socketio.js",
     "socketsNeedle": "// Insert sockets below",
     "filters": {
-      "coffee": true,
+      "js": true,
       "jade": true,
       "less": true,
       "uirouter": true,
