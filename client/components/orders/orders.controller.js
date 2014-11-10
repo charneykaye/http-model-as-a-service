@@ -9,7 +9,7 @@
  * @repository https://github.com/nickckaye/http-model-as-a-service
  */
 angular.module('httpModelAsAServiceApp')
-  .controller('MainCtrl', function ($scope, $http, OrderService) {
+  .controller('OrdersCtrl', function ($scope, $http, OrderService) {
     'use strict';
     /** @property {Object} */
     $scope.current_order = {};

@@ -6,6 +6,6 @@ angular.module('httpModelAsAServiceApp')
       .state('main', {
         url: '/',
         templateUrl: 'app/main/main.html',
-        controller: 'MainCtrl'
+        controller: 'OrdersCtrl'
       });
   });
