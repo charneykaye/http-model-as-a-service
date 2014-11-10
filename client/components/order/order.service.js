@@ -18,6 +18,8 @@ angular.module('httpModelAsAServiceApp').service('OrderService', function ($http
    * @property {String} name
    * @property {String} info
    * @property {Number} amount
+   * @property {Number} purchase_number
+   * @property {Date} created_at
    */
 
   /**
