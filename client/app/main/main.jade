@@ -2,24 +2,21 @@ div(ng-include='"components/navbar/navbar.html"')
 
 header#banner.hero-unit
   .container
-    h1 'Allo, 'Allo!
-    p.lead Kick-start your next web app with Angular Fullstack
-    img(src='assets/images/yeoman.png', alt='I\'m Yeoman')
+    h1 Simple AngularJS Example Project
+    p.lead Demos the philosophy behind contemporary front-end construction, specifically separating out concerns of a "model" entirely, relying for our data models entirely on a JSON API.
 
 .container
   .row
-    .col-lg-12
-      h1.page-header Features:
-      ul.nav.nav-tabs.nav-stacked.col-md-4.col-lg-4.col-sm-6(ng-repeat='order in awesomeorders')
-        li
-          a(href='#', tooltip='{{order.info}}')
-            | {{order.name}}
+    .col-lg-4
+      h1 Orders
+      // TODO "List of Orders" retrieves records via Service; updates U.I. #6
+    .col-lg-8
+      h1 Edit Order #X
+      // "Update an Order" validates, updates record via Service; updates U.I. #7
 
 footer.footer
   .container
     p
-      | Angular Fullstack v2.0.13
+      a(href='https://github.com/daftmonk/generator-angular-fullstack',target='_blank') Yeoman Angular Fullstack
       = ' | '
-      a(href='https://twitter.com/tyhenkel') @tyhenkel
-      = ' | '
-      a(href='https://github.com/DaftMonk/generator-angular-fullstack/issues?state=open') Issues
+      a(href='https://github.com/nickckaye/http-model-as-a-service',target='_blank') $http Model-as-a-Service
