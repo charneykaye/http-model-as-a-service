@@ -4,30 +4,55 @@
 
     // List of Orders
     .col-lg-4.col-sm-12
+
       h1 Orders
         a.btn.create(ng-click="create()",ng-class="{current: current_order._id === null}")
           i.fa.fa-plus
+
       ul.list_of_orders(ng-show="list_of_orders")
         li(ng-repeat="order in list_of_orders",ng-click="show(order._id)",ng-class="{current: current_order._id === order._id}")
           .name(ng-bind="order.name")
+
+      // else loading List
       .loading(ng-hide="list_of_orders")
         progressbar.progress-striped.active(value="100",type="success")
 
     // Show One Order
     .col-lg-8.col-sm-12
       .current_order(ng-show="current_order")
+
         h1
           span(ng-show="current_order.purchase_number") Order #
             span(ng-bind="current_order.purchase_number")
           span(ng-hide="current_order.purchase_number") New Order
-        h3 Purchase Number
-        .name(ng-bind="current_order.purchase_number")
-        h3 Name
-        .name(ng-bind="current_order.name")
-        h3 Info
-        .info(ng-bind="current_order.info")
-        h3 Amount
-        .amount(ng-bind="current_order.amount")
+
+        // Proper Bootstrap 3+ <form> herein
+        form(role='form')
+
+          .form-group
+            label(for='orderPurchaseNumber') Purchase Number
+            input(readonly,ng-model="current_order.purchase_number")#orderPurchaseNumber.form-control(type='number', placeholder='(new)')
+
+          .form-group
+            label(for='orderName') Name
+            input(ng-model="current_order.name")#orderName.form-control(type='text', placeholder='Enter the order name')
+
+          .form-group
+            label(for='orderInfo') Info
+            textarea(ng-model="current_order.info")#orderInfo.form-control(type='text', placeholder='Enter the order info')
+
+          .form-group
+            label(for='orderAmount') Amount
+            input(ng-model="current_order.amount")#orderAmount.form-control(type='number', placeholder='Enter the order amount')
+
+          hr
+
+          .form-group.choices
+            button.btn.left.btn-success(type='submit') Save
+            button.btn.left.btn-default(ng-click='create()') Cancel
+            button.btn.right.btn-danger Delete
+
+      // else loading Order
       .loading(ng-hide="current_order")
         h1 Loading..
         progressbar.progress-striped.active(value="100",type="success")

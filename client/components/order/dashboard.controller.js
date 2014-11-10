@@ -77,7 +77,8 @@ angular.module('httpModelAsAServiceApp')
      };
      */
 
-    // Refresh now
+    // Begin by refreshing list, and show the Create Order form.
     $scope.refresh();
+    $scope.create();
 
   });
