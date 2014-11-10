@@ -9,7 +9,7 @@
  * @repository https://github.com/nickckaye/http-model-as-a-service
  */
 angular.module('httpModelAsAServiceApp')
-  .controller('OrdersCtrl', function ($scope, $http, OrderService) {
+  .controller('OrderDashboardCtrl', function ($scope, $http, OrderService) {
     'use strict';
     /** @property {Object} */
     $scope.current_order = {};
@@ -38,7 +38,9 @@ angular.module('httpModelAsAServiceApp')
       if (typeof attributes === 'object') {
 
       } else {
-        $scope.current_order = {};
+        $scope.current_order = {
+          _id: null
+        };
       }
     };
 

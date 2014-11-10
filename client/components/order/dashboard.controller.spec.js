@@ -1,11 +1,11 @@
 'use strict';
 
-describe('Controller: OrdersCtrl', function () {
+describe('Controller: OrderDashboardCtrl', function () {
 
   // load the controller's module
   beforeEach(module('httpModelAsAServiceApp'));
 
-  var OrdersCtrl,
+  var OrderDashboardCtrl,
       scope,
       $httpBackend;
 
@@ -16,7 +16,7 @@ describe('Controller: OrdersCtrl', function () {
       .respond(['HTML5 Boilerplate', 'AngularJS', 'Karma', 'Express']);
 
     scope = $rootScope.$new();
-    OrdersCtrl = $controller('OrdersCtrl', {
+    OrderDashboardCtrl = $controller('OrderDashboardCtrl', {
       $scope: scope
     });
   }));

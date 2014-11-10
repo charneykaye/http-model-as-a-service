@@ -1,0 +1,42 @@
+@import '../components/global.less';
+
+.order_selection {
+  color: @normal-text-color;
+  cursor: pointer;
+  border: 1px solid;
+  border-color: @order-border-top-color @order-border-right-color @order-border-bottom-color @order-border-left-color;
+  background-color: lighten(@pop-color, 50);
+  &:hover {
+    color: @invert-text-color;
+    background-color: lighten(@pop-color, 35);
+  }
+  &.current, &.current:hover {
+    font-weight: bold;
+    background-color: @invert-bg-color;
+    color: @invert-text-color;
+    cursor: default;
+  }
+}
+
+.order_dashboard {
+
+  h1 {
+    a.btn.create {
+      .order_selection;
+      margin-left: 1em;
+      padding: 0.3em 0.7em;
+    }
+  }
+
+  ul.list_of_orders {
+    padding-left: 0;
+    li {
+      .order_selection;
+      padding: 0.5em;
+      list-style: none;
+      margin-bottom: 0.5em;
+    }
+  }
+
+}
+
