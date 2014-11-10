@@ -2,18 +2,18 @@
 
 angular.module 'httpModelAsAServiceApp'
 .controller 'MainCtrl', ($scope, $http) ->
-  $scope.awesomeThings = []
+  $scope.awesomeorders = []
 
-  $http.get('/api/things').success (awesomeThings) ->
-    $scope.awesomeThings = awesomeThings
-    
+  $http.get('/api/orders').success (awesomeorders) ->
+    $scope.awesomeorders = awesomeorders
 
-  $scope.addThing = ->
-    return if $scope.newThing is ''
-    $http.post '/api/things',
-      name: $scope.newThing
 
-    $scope.newThing = ''
+  $scope.addorder = ->
+    return if $scope.neworder is ''
+    $http.post '/api/orders',
+      name: $scope.neworder
 
-  $scope.deleteThing = (thing) ->
-    $http.delete '/api/things/' + thing._id
+    $scope.neworder = ''
+
+  $scope.deleteorder = (order) ->
+    $http.delete '/api/orders/' + order._id

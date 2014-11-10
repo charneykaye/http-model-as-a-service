@@ -3,7 +3,7 @@
 describe 'Controller: MainCtrl', ->
 
   # load the controller's module
-  beforeEach module 'httpModelAsAServiceApp' 
+  beforeEach module 'httpModelAsAServiceApp'
 
   MainCtrl = undefined
   scope = undefined
@@ -12,7 +12,7 @@ describe 'Controller: MainCtrl', ->
   # Initialize the controller and a mock scope
   beforeEach inject (_$httpBackend_, $controller, $rootScope) ->
     $httpBackend = _$httpBackend_
-    $httpBackend.expectGET('/api/things').respond [
+    $httpBackend.expectGET('/api/orders').respond [
       'HTML5 Boilerplate'
       'AngularJS'
       'Karma'
@@ -22,6 +22,6 @@ describe 'Controller: MainCtrl', ->
     MainCtrl = $controller 'MainCtrl',
       $scope: scope
 
-  it 'should attach a list of things to the scope', ->
+  it 'should attach a list of orders to the scope', ->
     $httpBackend.flush()
-    expect(scope.awesomeThings.length).toBe 4
+    expect(scope.awesomeorders.length).toBe 4
