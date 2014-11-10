@@ -1,30 +1,28 @@
-.thing-form {
-  margin: 20px 0;
-}
-
-#banner {
-    border-bottom: none;
-    margin-top: -20px;
-}
-
-#banner h1 {
-    font-size: 60px;
-    line-height: 1;
-    letter-spacing: -1px;
-}
-
-.hero-unit {
-    position: relative;
-    padding: 30px 15px;
-    color: #F5F5F5;
-    text-align: center;
-    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
-    background: #4393B9;
-}
+@import '../../components/global.less';
 
 .footer {
-    text-align: center;
-    padding: 30px 0;
-    margin-top: 70px;
-    border-top: 1px solid #E5E5E5;
+  text-align: center;
+  padding: 30px 0;
+  margin-top: 70px;
+  border-top: 1px solid #E5E5E5;
+}
+
+ul.list_of_orders {
+  padding-left: 0;
+  li {
+    cursor: pointer;
+    border: 1px solid;
+    border-color: @order-border-top-color @order-border-right-color @order-border-bottom-color @order-border-left-color;
+    background-color: @order-bg-color;
+    padding: 0.5em;
+    list-style: none;
+    margin-bottom: 0.5em;
+    &:hover {
+      background-color: lighten(@pop-color, 40);
+    }
+  }
+}
+
+.loading_order {
+
 }

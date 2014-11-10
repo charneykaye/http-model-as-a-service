@@ -3,56 +3,64 @@
  * OrderService Model-as-a-Service
  *
  * REST methods return Angular Promises
- * @typedef {angular.Promise} HttpPromise
+ * @typedef {angular.promise} HttpPromise
  *
  * Using $http Model-as-a-Service in AngularJS
  * @author Nick Kaye <nick.c.kaye@gmail.com>
  * @repository https://github.com/nickckaye/http-model-as-a-service
- *
  */
 angular.module('httpModelAsAServiceApp').service('OrderService', function ($http) {
   'use strict';
+
+  /**
+   * Order Model
+   * @typedef {*} Order
+   * @property {String} name
+   * @property {String} info
+   * @property {Number} amount
+   */
+
+  /**
+   * Order Service
+   * @typedef {angular.service} OrderService
+   */
   var OrderService = {};
 
   /**
-   Create a new Order with <attributes>
-   @param {*} attributes
-   @return {HttpPromise}
+   * Create a new Order with <attributes>
+   * @param {*} attributes
+   * @return {HttpPromise}
    */
   OrderService.create = function (attributes) {
-    // TODO: create via $http
     return $http.post('/api/orders', attributes);
   };
 
   /**
-   * Show Order by <id>
-   * @param id
+   * Show Order by <_id>
+   * @param _id
    * @returns {HttpPromise}
    */
-  OrderService.show = function (id) {
-    console.log(id);
-    // TODO: show via $http
+  OrderService.show = function (_id) {
+    return $http.get('/api/orders/' + _id);
   };
 
   /**
-   * Update Order by <id> with new <attributes>
-   * @param id
+   * Update Order by <_id> with new <attributes>
+   * @param _id
    * @param {*} attributes
    * @returns {HttpPromise}
    */
-  OrderService.update = function (id, attributes) {
-    console.log(id,attributes);
-    // TODO: update via $http
+  OrderService.update = function (_id, attributes) {
+    return $http.post('/api/orders/' + _id, attributes);
   };
 
   /**
-   * Destroy Order by <id>
-   * @param id
+   * Destroy Order by <_id>
+   * @param _id
    * @returns {HttpPromise}
    */
-  OrderService.destroy = function (id) {
-    console.log(id);
-    // TODO: destroy via $http
+  OrderService.destroy = function (_id) {
+    return $http.delete('/api/orders/' + _id);
   };
 
   /**
@@ -60,8 +68,7 @@ angular.module('httpModelAsAServiceApp').service('OrderService', function ($http
    * @returns {HttpPromise}
    */
   OrderService.list = function () {
-    // TODO: list via $http
-    return $http.get();
+    return $http.get('/api/orders');
   };
 
   return OrderService;
