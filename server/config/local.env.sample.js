@@ -1,10 +1,4 @@
-/**
- * Using $http Model-as-a-Service in AngularJS
- * @author Nick Kaye <nick.c.kaye@gmail.com>
- * @repository https://github.com/outrightmental/meks
- */
-
- 'use strict';
+'use strict';
 
 // Use local.env.js for environment variables that grunt will set when the server starts locally.
 // Use for your api keys, secrets, etc. This file should not be tracked by git.
