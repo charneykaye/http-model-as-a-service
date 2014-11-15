@@ -33,15 +33,15 @@
 
           .form-group
             label(for='orderName') Name
-            input(ng-model="current_order.name")#orderName.form-control(type='text', placeholder='Enter the order name')
+            input#orderName.form-control(type='text', placeholder='Enter the order name',ng-model="current_order.name")
 
           .form-group
             label(for='orderInfo') Info
-            textarea(ng-model="current_order.info")#orderInfo.form-control(type='text', placeholder='Enter the order info')
+            textarea#orderInfo.form-control(type='text', placeholder='Enter the order info',ng-model="current_order.info")
 
           .form-group
             label(for='orderAmount') Amount
-            input(ng-model="current_order.amount")#orderAmount.form-control(type='number', placeholder='Enter the order amount')
+            input#orderAmount.form-control(type='number', placeholder='Enter the order amount',ng-model="current_order.amount")
 
           hr
 

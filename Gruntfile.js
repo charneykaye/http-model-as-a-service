@@ -661,9 +661,9 @@ module.exports = function (grunt) {
     }
 
     else grunt.task.run([
+        'test:e2e',
         'test:server',
-        'test:client',
-        'test:e2e'
+        'test:client'
       ]);
   });
 

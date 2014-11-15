@@ -24,9 +24,7 @@ module.exports = function(config) {
       'client/app/**/*.js',
       'client/components/**/*.js',
       'client/app/**/*.jade',
-      'client/components/**/*.jade',
-      'client/app/**/*.html',
-      'client/components/**/*.html'
+      'client/components/**/*.jade'
     ],
 
     preprocessors: {
