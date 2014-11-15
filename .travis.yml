@@ -1,7 +1,11 @@
+before_script: 
+- npm install -g bower grunt-cli
+- bower install
+env: 
+  global: 
+  - secure: ZDQnEKCUSNExaf/g1I3LuMgXIvL4pdSx6pj9k+YqGrQhSUiMldJjXH0PxKec66vv4pI3dvFF9sbOh7MFu6X8IQwF0TSMFj1vJJc+IlG06g+Y0VSZuTtsjwhDnP1zZDQ/XyeetfsqtLrZB7J6NsXBAnJS+lc5Le4EG+Ci9h6V5hU=
+  - secure: TPL/e5skOTg2Cwp4Y5yryfTK2jKNxxRuEHhoThIHVOUb7fmmghwPoHYGMBeVDODujqyftPzmbwb0+2Q0I0oxAg3RdBgFkRhKPCzSwPUg4beAgRTcXVyhsx0F8MT1tMjcXjjpC5h6rohoOa8h1e4sLV9KVJr2ymwbytca6OFt/0w=
 language: node_js
-node_js:
-  - '0.10'
-before_script:
-  - npm install -g bower grunt-cli
-  - bower install
+node_js: 
+- "0.10"
 services: mongodb
