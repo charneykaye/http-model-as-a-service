@@ -1,0 +1,36 @@
+.order_editor(ng-controller="OrderEditorCtrl")
+  h1(ng-bind="machine.current")
+
+  .current_order(ng-show="current_order")
+
+    h1
+      span(ng-show="current_order.purchase_number") Order #
+        span(ng-bind="current_order.purchase_number")
+      span(ng-hide="current_order.purchase_number") Create Order
+
+    // Proper Bootstrap 3+ <form> herein
+    form(role='form')
+
+      .form-group
+        label(for='orderName') Name
+        input#orderName.form-control(type='text', placeholder='Enter the order name',ng-model="current_order.name",required)
+
+      .form-group
+        label(for='orderInfo') Info
+        textarea#orderInfo.form-control(type='text', placeholder='Enter the order info',ng-model="current_order.info",required)
+
+      .form-group
+        label(for='orderAmount') Amount
+        input#orderAmount.form-control(type='number', placeholder='Enter the order amount',ng-model="current_order.amount",required)
+
+      hr
+
+      .form-group.choices
+        button.btn.left.btn-success(ng-click='save()') Save
+        button.btn.left.btn-default(ng-click='create()') Cancel
+        button.btn.right.btn-danger Delete
+
+  // else loading Order
+  .loading(ng-hide="current_order")
+    h1 Loading..
+    progressbar.progress-striped.active(value="100",type="success")
