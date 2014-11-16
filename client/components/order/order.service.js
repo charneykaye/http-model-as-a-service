@@ -8,8 +8,9 @@
  * Using $http Model-as-a-Service in AngularJS
  * @author Nick Kaye <nick.c.kaye@gmail.com>
  * @repository https://github.com/nickckaye/http-model-as-a-service
+ * @typedef {angular.service} OrderService
  */
-angular.module('httpModelAsAServiceApp').service('OrderService', function ($http) {
+angular.module('httpModelAsAServiceApp').service('OrderService', function ($http,$q) {
   'use strict';
 
   /**
@@ -29,12 +30,15 @@ angular.module('httpModelAsAServiceApp').service('OrderService', function ($http
   var OrderService = {};
 
   /**
-   * Create an Order with <attributes>
-   * @param {*} attributes
-   * @return {HttpPromise}
+   * Create an Order <record>
+   * @param {*} record
+   * @return {HttpPromise|Promise}
    */
-  OrderService.create = function (attributes) {
-    return $http.post('/api/orders', attributes);
+  OrderService.create = function (record) {
+    if (typeof '_id' in record) {
+      return $q.reject();
+    }
+    return $http.post('/api/orders', record);
   };
 
   /**
@@ -48,12 +52,17 @@ angular.module('httpModelAsAServiceApp').service('OrderService', function ($http
 
   /**
    * Update Order by <_id> with new <attributes>
-   * @param _id
-   * @param {*} attributes
-   * @returns {HttpPromise}
+   * @param {*} record
+   * @returns {HttpPromise|Promise}
    */
-  OrderService.update = function (_id, attributes) {
-    return $http.post('/api/orders/' + _id, attributes);
+  OrderService.update = function (record) {
+    if (typeof '_id' in record && record._id) {
+      var data = record;
+      delete data['_id'];
+      return $http.post('/api/orders/' + record._id, data);
+    } else {
+      return $q.reject();
+    }
   };
 
   /**

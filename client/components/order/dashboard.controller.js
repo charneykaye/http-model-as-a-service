@@ -7,6 +7,7 @@
  * Using $http Model-as-a-Service in AngularJS
  * @author Nick Kaye <nick.c.kaye@gmail.com>
  * @repository https://github.com/nickckaye/http-model-as-a-service
+ * @typedef {angular.controller} OrderDashboardCtrl
  */
 angular.module('httpModelAsAServiceApp')
   .controller('OrderDashboardCtrl', function ($scope, $http, OrderService) {
@@ -36,11 +37,49 @@ angular.module('httpModelAsAServiceApp')
      */
     $scope.create = function (attributes) {
       if (typeof attributes === 'object') {
-
+        OrderService.create(attributes)
+          .success(function (record) {
+            $scope.current_order = record;
+            // TODO: Flash message says "successfully created order"
+            console.log('successfully created order');
+            $scope.refresh();
+          })
+          .error(function () {
+            // TODO: Flash message says "failed to create order"
+            console.log('failed to create order');
+          });
       } else {
         $scope.current_order = {
           _id: null
         };
+      }
+    };
+
+    /**
+     * Create an order
+     * @param {*} record
+     */
+    $scope.update = function (record) {
+      OrderService.update(record)
+        .success(function () {
+          // TODO: Flash message says "successfully updated order"
+          console.log('successfully updated order');
+          $scope.refresh();
+        })
+        .error(function () {
+          // TODO: Flash message says "failed to update order"
+          console.log('failed to update order');
+        });
+    };
+
+    /**
+     * Save the current_order
+     */
+    $scope.save = function () {
+      if ('_id' in $scope.current_order && $scope.current_order._id) {
+        $scope.update($scope.current_order);
+      } else {
+        $scope.create($scope.current_order);
       }
     };
 

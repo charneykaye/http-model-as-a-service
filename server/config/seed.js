@@ -11,26 +11,12 @@
 'use strict';
 
 var async = require('async')
-  , chance = require('chance')
   , moment = require('moment')
   , Order = require('../api/order/order.model')
   , REPEAT_INTERVAL_MS = 10000
   , ORDER_EXPIRE_SECONDS = 3600
   , GENERATE_RECORDS_COUNT = 10
   , interval;
-
-/**
- * Generate a random
- * @returns {*}
- */
-function generate_random_data() {
-  var d = new chance();
-  return {
-    name: d.word(),
-    info: d.paragraph(),
-    amount: d.integer()
-  };
-}
 
 /**
  * @returns {Long|Timestamp} before which records expire
@@ -62,7 +48,7 @@ function destroy_expired_records(done) {
 function generate_records(done) {
   Order.count({}, function (err, count) {
     if (count < GENERATE_RECORDS_COUNT) {
-      Order.create(generate_random_data(), done);
+      Order.create_random(done);
     } else {
       done();
     }

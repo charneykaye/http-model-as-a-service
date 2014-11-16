@@ -7,6 +7,7 @@
  */
 'use strict';
 var mongoose = require('mongoose')
+  , chance = require('chance')
   , Schema = mongoose.Schema
   , autoIncrement = require('mongoose-auto-increment');
 
@@ -50,9 +51,36 @@ orderSchema.pre("save", function (next) {
 /**
  * Auto-increment purchase_number
  */
-orderSchema.plugin(autoIncrement.plugin, {model: 'order', field: 'purchase_number', startAt: 100,});
+orderSchema.plugin(autoIncrement.plugin, {model: 'order', field: 'purchase_number', startAt: 100});
+
+/**
+ * Helper to create an instance with random values (for demo site in production)
+ * @param {Function} done callback
+ */
+orderSchema.statics.create_random = function (done) {
+  mongoose.model('order').create(generate_random_data(), done);
+};
+
+/**
+ * Helper to get an object of random data for all attributes
+ * @returns {*}
+ */
+orderSchema.statics.get_random_attributes = generate_random_data;
 
 /**
  * Export Mongoose model
  */
 module.exports = mongoose.model('order', orderSchema);
+
+/**
+ * Generate random data for all attributes
+ * @returns {*}
+ */
+function generate_random_data() {
+  var c = new chance();
+  return {
+    name: c.word(),
+    info: c.paragraph(),
+    amount: c.integer({min: 1, max: 99999})
+  };
+}
