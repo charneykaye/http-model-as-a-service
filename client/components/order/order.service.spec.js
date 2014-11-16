@@ -35,6 +35,14 @@ describe('Service: OrderService', function () {
     httpBackend.flush();
   });
 
+  // TODO: test order create
+
+  // TODO: test order show
+
+  // TODO: test order update
+
+  // TODO: test order destroy
+
 });
 
 /**
@@ -68,6 +76,7 @@ var test_order_one = {
     "_id": "5467e8cc8a4f0313533ef422",
     "__v": 0
   }
+  /*
   , test_new_order = {
     "purchase_number": 109,
     "created_at": "2014-11-15T23:59:08.359Z",
@@ -77,6 +86,7 @@ var test_order_one = {
     "_id": "563786c48aef0d31c53ef422",
     "__v": 0
   }
+  */
   , test_order_index = [
     test_order_one,
     test_order_two,
