@@ -1,4 +1,54 @@
 /**
+ *
+ * Using $http Model-as-a-Service in AngularJS
+ * @author Nick Kaye <nick.c.kaye@gmail.com>
+ * @repository https://github.com/nickckaye/http-model-as-a-service
+ *
+ * Simple AngularJS Example Project to demo the philosophy behind contemporary
+ * front-end construction, specifically separating out concerns of a "model",
+ * relying for our data models entirely on a JSON API.
+ *
+ * Client Tests implement Karma + Jasmine
+ */
+describe('Controller: OrderDashboardCtrl', function () {
+  'use strict';
+  var OrderDashboardCtrl
+    , scope
+    , $httpBackend
+    ;
+
+  // load the main module
+  beforeEach(module('httpModelAsAServiceApp'));
+
+  // inject backend
+  beforeEach(inject(function (_$httpBackend_, $controller, $rootScope) {
+    $httpBackend = _$httpBackend_;
+    $httpBackend.expectGET('/api/orders')
+      .respond(test_order_index);
+    scope = $rootScope.$new();
+    OrderDashboardCtrl = $controller('OrderDashboardCtrl', {
+      $scope: scope
+    });
+  }));
+
+  it('should attach a list of orders to the scope', function () {
+    $httpBackend.flush();
+    expect(scope.list_of_orders.length).toBe(test_order_index.length);
+  });
+
+  it('should create a new order', function () {
+    $httpBackend.flush();
+    $httpBackend.expectPOST('/api/orders', test_new_order)
+      .respond(test_new_order);
+    $httpBackend.expectGET('/api/orders')
+      .respond(test_order_index);
+    scope.create(test_new_order);
+    $httpBackend.flush();
+  });
+
+});
+
+/**
  * Test data
  * @type {*}
  */
@@ -45,43 +95,3 @@ var test_order_one = {
   ]
   ;
 
-/**
- * Client Tests implement Karma + Jasmine
- */
-describe('Controller: OrderDashboardCtrl', function () {
-  'use strict';
-
-  // load the controller's module
-  beforeEach(module('httpModelAsAServiceApp'));
-
-  var OrderDashboardCtrl,
-    scope,
-    $httpBackend;
-
-  // Initialize the controller and a mock scope
-  beforeEach(inject(function (_$httpBackend_, $controller, $rootScope) {
-    $httpBackend = _$httpBackend_;
-    $httpBackend.expectGET('/api/orders')
-      .respond(test_order_index);
-    scope = $rootScope.$new();
-    OrderDashboardCtrl = $controller('OrderDashboardCtrl', {
-      $scope: scope
-    });
-  }));
-
-  it('should attach a list of orders to the scope', function () {
-    $httpBackend.flush();
-    expect(scope.list_of_orders.length).toBe(test_order_index.length);
-  });
-
-  it('should create a new order', function () {
-    $httpBackend.flush();
-    $httpBackend.expectPOST('/api/orders', test_new_order)
-      .respond(test_new_order);
-    $httpBackend.expectGET('/api/orders')
-      .respond(test_order_index);
-    scope.create(test_new_order);
-    $httpBackend.flush();
-  });
-
-});
