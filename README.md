@@ -8,7 +8,9 @@ Author: [Nick C. Kaye](http://www.nickkaye.com)
 
 ## Documentation
 
-![Using $http Model-as-a-Service in AngularJS][top-level-diagram-image]
+![HTTP Model-as-a-Service][http-model-as-a-service-image]
+
+![User Interface View Machine][user-interface-view-machine-image]
 
 ### Basic Usage
 
@@ -28,4 +30,5 @@ HTTP Model-as-a-Service is freely distributable under the terms of the [MIT lice
 [travis-url]: http://travis-ci.org/nickckaye/http-model-as-a-service
 [travis-image]: http://img.shields.io/travis/nickckaye/http-model-as-a-service/master.svg?style=flat
 
-[top-level-diagram-image]: /client/assets/images/http-model-as-a-service-diagram.png
+[http-model-as-a-service-image]: /client/assets/images/diagram/http-model-as-a-service.png
+[user-interface-view-machine-image]: /client/assets/images/diagram/user-interface-view-machine.png
