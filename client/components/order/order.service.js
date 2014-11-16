@@ -49,7 +49,7 @@ angular.module('httpModelAsAServiceApp').service('OrderService', function ($http
    * @return {HttpPromise|Promise}
    */
   OrderService.create = function (record) {
-    if (!typeof '_id' in record) {
+    if (!'_id' in record) {
       return $http.post('/api/orders', record);
     } else {
       return $q.reject();
