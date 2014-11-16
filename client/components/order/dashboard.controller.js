@@ -1,8 +1,8 @@
 /**
  *
  * Simple AngularJS Example Project to demo the philosophy behind contemporary
- * front-end construction, specifically separating out concerns of a "model"
- * entirely, relying for our data models entirely on a JSON API.
+ * front-end construction, specifically separating out concerns of a "model",
+ * relying for our data models entirely on a JSON API.
  *
  * Using $http Model-as-a-Service in AngularJS
  * @author Nick Kaye <nick.c.kaye@gmail.com>
