@@ -41,6 +41,7 @@ angular.module('httpModelAsAServiceApp')
     // events
       , EVENT_REFRESH = 'refresh'
       , EVENT_SELECT = 'select'
+      , EVENT_CURRENT = 'select'
       , EVENT_DESELECT = 'deselect'
       , EVENT_CREATE = 'create'
       ;
@@ -84,10 +85,6 @@ angular.module('httpModelAsAServiceApp')
       _onEnter: function () {
       }
     };
-    _machine[STATE_SELECTED][EVENT_DESELECT] = function() {
-      $scope.selected_id = null;
-      this.transition(STATE_DISPLAYED);
-    };
 
     /**
      * List "Errored" State
@@ -125,6 +122,23 @@ angular.module('httpModelAsAServiceApp')
     });
 
     /**
+     * Deselect anything
+     */
+    $scope.machine.on(EVENT_DESELECT, function () {
+      $scope.selected_id = null;
+      this.transition(STATE_DISPLAYED);
+    });
+
+    /**
+     * Current thing is updated
+     * @param _id
+     */
+    $scope.machine.on(EVENT_CURRENT, function (_id) {
+      $scope.selected_id = _id;
+      this.transition(STATE_SELECTED);
+    });
+
+    /**
      * Create a new thing
      */
     $scope.machine.on(EVENT_CREATE, function () {
@@ -144,8 +158,20 @@ angular.module('httpModelAsAServiceApp')
     $scope.select = function (thing) {
       $scope.machine.trigger(EVENT_SELECT, thing._id);
     };
-    $rootScope.$on('thing_editor_clear', function () {
-      $scope.machine.handle(EVENT_DESELECT);
+    $rootScope.$on('thing_editor_offline', function () {
+      $scope.machine.trigger(EVENT_DESELECT);
+    });
+    $rootScope.$on('thing_editor_created', function (/* event, record */) {
+      // TODO: before refresh, add this one created record to the list
+      $scope.machine.trigger(EVENT_REFRESH);
+    });
+    $rootScope.$on('thing_editor_updated', function (/* event, record */) {
+      // TODO: before refresh, refresh this one updated record in the list
+      $scope.machine.trigger(EVENT_REFRESH);
+    });
+    $rootScope.$on('thing_editor_destroyed', function (/* event, _id */) {
+      // TODO: before refresh, remove this one destroyed record to the list
+      $scope.machine.trigger(EVENT_REFRESH);
     });
 
   });

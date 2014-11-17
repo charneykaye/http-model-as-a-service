@@ -2,11 +2,11 @@
 
   h1
     | Things
-    .current_state(ng-bind="machine.state",ng-class="machine.state")
     a.btn.create(ng-click="create()",ng-class="{current: current_thing._id === null}")
       i.fa.fa-plus
     a.btn.create(ng-click="refresh()")
       i.fa.fa-refresh
+    .current_state(ng-bind="machine.state",ng-class="machine.state")
 
   ul.list_of_things(ng-show="list_of_things")
     li(ng-repeat="thing in list_of_things",ng-click="select(thing)",ng-class="{current: selected_id === thing._id}")

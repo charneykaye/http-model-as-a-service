@@ -22,6 +22,9 @@ angular.module('httpModelAsAServiceApp')
     /** @type {*|null} to hold current loading id */
     $scope.loading_id = null;
 
+    /** @type {*} replaced by the form(name='thing_form') */
+    $scope.thing_form = {};
+
     /**
      * We are using a simple JavaScript implementation of a
      * Finite State Machine (FSM) using a library called Machina
@@ -63,7 +66,7 @@ angular.module('httpModelAsAServiceApp')
      */
     _machine[STATE_OFFLINE] = {
       _onEnter: function () {
-        $rootScope.$broadcast('thing_editor_clear');
+        $rootScope.$broadcast('thing_editor_offline');
         $scope.loading_id = null;
         $scope.current_thing = {};
       }
@@ -76,10 +79,13 @@ angular.module('httpModelAsAServiceApp')
       _onEnter: function () {
         $scope.loading_id = null;
         $scope.current_thing = {};
+        $scope.thing_form.$setPristine();
       }
     };
     _machine[STATE_EDIT_NEW][EVENT_SAVE] = function () {
-      // TODO: validate data before transition!!
+      if ($scope.thing_form.$invalid) {
+        return false;
+      }
       this.transition(STATE_CREATING);
     };
     _machine[STATE_EDIT_NEW][EVENT_CANCEL] = function () {
@@ -92,11 +98,17 @@ angular.module('httpModelAsAServiceApp')
      */
     _machine[STATE_CREATING] = {
       _onEnter: function () {
-        // TODO: implement ThingService to create $scope.current_thing
-        // this.transition(STATE_EDIT_EXISTING);
-        // TODO: display flash message "thing created"
-        // TODO: display errors on input form fields
-        // TODO: display flash message "thing failed to load"
+        ThingService.create($scope.current_thing)
+          .success(function (record) {
+            $scope.current_thing = record;
+            $rootScope.$broadcast('thing_editor_created', $scope.current_thing);
+            $scope.machine.transition(STATE_EDIT_EXISTING);
+            // TODO: display flash message "created thing"
+          })
+          .error(function () {
+            $scope.machine.transition(STATE_EDIT_NEW);
+            // TODO: display flash message "failed to create thing"
+          });
       }
     };
 
@@ -112,7 +124,7 @@ angular.module('httpModelAsAServiceApp')
             $scope.machine.transition(STATE_EDIT_EXISTING);
           })
           .error(function () {
-            // TODO: display flash message "thing failed to load"
+            // TODO: display flash message "failed to load thing"
             $scope.machine.transition(STATE_ERRORED);
           });
       },
@@ -126,6 +138,7 @@ angular.module('httpModelAsAServiceApp')
      */
     _machine[STATE_EDIT_EXISTING] = {
       _onEnter: function () {
+        $scope.thing_form.$setPristine();
       }
     };
     _machine[STATE_EDIT_EXISTING][EVENT_SAVE] = function () {
@@ -145,19 +158,36 @@ angular.module('httpModelAsAServiceApp')
      */
     _machine[STATE_SAVING] = {
       _onEnter: function () {
-        // TODO: implement ThingService to save the existing record
-        // TODO: display errors on input form fields
-        // TODO: display flash message "thing failed to save"
+        ThingService.update($scope.current_thing)
+          .success(function (record) {
+            $scope.current_thing = record;
+            $rootScope.$broadcast('thing_editor_updated', $scope.current_thing);
+            $scope.machine.transition(STATE_OFFLINE);
+            // TODO: display flash message "updated thing"
+          })
+          .error(function () {
+            $scope.machine.transition(STATE_EDIT_EXISTING);
+            // TODO: display flash message "failed to create thing"
+          });
       }
     };
 
     /**
-     * Editor "Saving" State
+     * Editor "Destroying" State
      */
     _machine[STATE_DESTROYING] = {
       _onEnter: function () {
-        // TODO: implement ThingService to destroy the existing record
-        // TODO: display flash message "thing failed to destroy"
+        var _id = $scope.current_thing._id;
+        ThingService.destroy(_id)
+          .success(function () {
+            $rootScope.$broadcast('thing_editor_destroyed', _id);
+            $scope.machine.transition(STATE_OFFLINE);
+            // TODO: display flash message "destroyed thing"
+          })
+          .error(function () {
+            $scope.machine.transition(STATE_ERRORED);
+            // TODO: display flash message "failed to destroyed thing"
+          });
       }
     };
 

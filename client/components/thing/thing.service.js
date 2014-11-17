@@ -16,7 +16,7 @@
  * @typedef {angular.promise} HttpPromise
  *
  */
-angular.module('httpModelAsAServiceApp').service('ThingService', function ($http, $q) {
+angular.module('httpModelAsAServiceApp').service('ThingService', function ($http) {
   'use strict';
 
   /**
@@ -52,7 +52,7 @@ angular.module('httpModelAsAServiceApp').service('ThingService', function ($http
     if (!('_id' in record)) {
       return $http.post('/api/things', record);
     } else {
-      return $q.reject();
+      throw Error('Cannot create with _id');
     }
   };
 
@@ -71,12 +71,12 @@ angular.module('httpModelAsAServiceApp').service('ThingService', function ($http
    * @returns {HttpPromise|Promise}
    */
   ThingService.update = function (record) {
-    if (typeof '_id' in record && record._id) {
-      var data = record;
+    if ('_id' in record && record._id) {
+      var data = angular.copy(record);
       delete data._id;
-      return $http.post('/api/things/' + record._id, data);
+      return $http.put('/api/things/' + record._id, data);
     } else {
-      return $q.reject();
+      throw Error('Cannot update without _id');
     }
   };
 

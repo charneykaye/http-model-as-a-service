@@ -3,7 +3,6 @@
   h1
     span(ng-switch="machine.state")
       span(ng-switch-when="offline")
-        | ...
       span(ng-switch-when="loading")
         | Loading..
       span(ng-switch-when="edit_new")
@@ -26,19 +25,24 @@
     .current_state(ng-bind="machine.state",ng-class="machine.state")
 
   // Form is made with Bootstrap
-  form(role='form',ng-show="is_form()")
+  form(name='thing_form',role='form',ng-show="is_form()")
 
-    .form-group
-      label(for='thingName') Name
-      input#thingName.form-control(type='text', placeholder='Enter the thing name',ng-model="current_thing.name",required)
+    .form-group(ng-class="{ 'has-error': thing_form.name.$invalid && thing_form.name.$dirty, 'has-success': thing_form.name.$valid && thing_form.amount.$dirty}",show-errors)
+      label(for='thing_name') Name
+      input#thing_name.form-control(type='text', name='name', placeholder='Enter the thing name',ng-model="current_thing.name",required)
+      p.help-block(ng-if="thing_form.name.$error.required") Name is required.
 
-    .form-group
-      label(for='thingInfo') Info
-      textarea#thingInfo.form-control(type='text', placeholder='Enter the thing info',ng-model="current_thing.info",required)
+    .form-group(ng-class="{ 'has-error': thing_form.info.$invalid && thing_form.info.$dirty, 'has-success': thing_form.info.$valid && thing_form.amount.$dirty}",show-errors)
+      label(for='thing_info') Info
+      textarea#thing_info.form-control(type='text', name='info', placeholder='Enter the thing info',ng-model="current_thing.info",required)
+      p.help-block(ng-if="thing_form.info.$error.required") Information is required.
 
-    .form-group
-      label(for='thingAmount') Amount
-      input#thingAmount.form-control(type='number', placeholder='Enter the thing amount',ng-model="current_thing.amount",required)
+    .form-group(ng-class="{ 'has-error': thing_form.amount.$invalid && thing_form.amount.$dirty, 'has-success': thing_form.amount.$valid && thing_form.amount.$dirty }",show-errors)
+      label(for='thing_amount') Amount
+      input#thing_amount.form-control(type='number', name='amount', placeholder='Enter the thing amount',ng-model="current_thing.amount",required)
+      p.help-block(ng-if="thing_form.amount.$error.required") Amount is required.
+      p.help-block(ng-if="thing_form.amount.$error.number") Amount must be a number.
+      p.help-block(ng-if="thing_form.amount.$error.integer") Amount must be an integer.
 
     hr
 

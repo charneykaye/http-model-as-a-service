@@ -36,6 +36,9 @@
         float: right;
         margin-left: 20px;
       }
+      &[disabled]{
+        opacity:0.4;
+      }
     }
     .btn-danger {
       opacity: 0.5;
@@ -49,5 +52,11 @@
       }
     }
   }
+  .form-group .help-block {
+    display: none;
+  }
 
+  .form-group.has-error .help-block {
+    display: block;
+  }
 }
