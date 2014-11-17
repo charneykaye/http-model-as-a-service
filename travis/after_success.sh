@@ -7,8 +7,8 @@ set -e
 #    @author Nick Kaye <nick@outrightmental.com>
 #    @laboratory Outright Mental Inc.
 #
-HEROKU_USER_NAME="Continuous Integration"
-HEROKU_USER_EMAIL="ci@outrightmental.com"
+git config --global user.name "Continuous Integration"
+git config --global user.email "ci@outrightmental.com"
 
 # Turn off warnings about SSH keys:
 echo "Host heroku.com" >> ~/.ssh/config
