@@ -11,26 +11,26 @@
  * Client Tests implement Karma + Jasmine
  */
 describe('Controller: OrderDashboardCtrl', function () {
-    'use strict';
-    var OrderDashboardCtrl
-        , scope
-        , $httpBackend
-        ;
+  'use strict';
+  var OrderDashboardCtrl
+    , scope
+    , $httpBackend
+    ;
 
-    // load the main module
-    beforeEach(module('httpModelAsAServiceApp'));
+  // load the main module
+  beforeEach(module('httpModelAsAServiceApp'));
 
-    // inject backend
-    beforeEach(inject(function (_$httpBackend_, $controller, $rootScope) {
-        $httpBackend = _$httpBackend_;
-        scope = $rootScope.$new();
-        OrderDashboardCtrl = $controller('OrderDashboardCtrl', {
-            $scope: scope
-        });
-    }));
-
-    it('should have nothing going on, but the rent.', function () {
-        expect(scope).toBeDefined();
+  // inject backend
+  beforeEach(inject(function (_$httpBackend_, $controller, $rootScope) {
+    $httpBackend = _$httpBackend_;
+    scope = $rootScope.$new();
+    OrderDashboardCtrl = $controller('OrderDashboardCtrl', {
+      $scope: scope
     });
+  }));
+
+  it('should have nothing going on, but the rent.', function () {
+    expect(scope).toBeDefined();
+  });
 
 });

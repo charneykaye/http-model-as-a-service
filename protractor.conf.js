@@ -15,7 +15,7 @@ exports.config = {
   // If true, only chromedriver will be started, not a standalone selenium.
   // Tests for browsers other than chrome will not run.
   directConnect: true,
-  chromeDriver:'./node_modules/protractor/selenium/chromedriver',
+  chromeDriver: './node_modules/protractor/selenium/chromedriver',
 
   // list of files / patterns to load in the browser
   specs: [
