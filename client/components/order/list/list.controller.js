@@ -13,83 +13,143 @@
  * @typedef {angular.controller} OrderListCtrl
  */
 angular.module('httpModelAsAServiceApp')
-  .controller('OrderListCtrl', function ($scope /* , $http, OrderService */) {
-    'use strict';
-    /* global machina */
-    var machine_states = {}
-      , machine_events = {}
-    // states
-      , STATE_OFFLINE = 'offline'
-      , STATE_REFRESHING = 'refreshing'
-      , STATE_DISPLAY = 'display'
-      , STATE_ERROR = 'error'
-    // events
-      , EVENT_REFRESH = 'refresh'
-      ;
-    /** @property {Array} */
-    $scope.list_of_orders = [];
+    .controller('OrderListCtrl', function ($scope, $rootScope, OrderService) {
+        'use strict';
+        /* global machina */
+        var machine_states = {}
+        // states
+            , STATE_OFFLINE = 'offline'
+            , STATE_REFRESHING = 'refreshing'
+            , STATE_DISPLAYED = 'displayed'
+            , STATE_SELECTED = 'selected'
+            , STATE_ERRORED = 'errored'
+        // events
+            , EVENT_REFRESH = 'refresh'
+            , EVENT_SELECT = 'select'
+            , EVENT_CREATE = 'create'
+            ;
+        /** @property {Array} */
+        $scope.list_of_orders = [];
+        /** @property {*|null} */
+        $scope.selected_id = null;
 
-    /**
-     * List "Offline" State
-     */
-    machine_states[STATE_OFFLINE] = {
-      start: function () {
-        this.transition(STATE_REFRESHING);
-      }
-    };
+        /**
+         * List "Offline" State
+         */
+        machine_states[STATE_OFFLINE] = {
+            _onEnter: function () {
+                this.handle('start');
+            },
+            start: function () {
+                this.transition(STATE_REFRESHING);
+            }
+        };
 
-    /**
-     * List "Refreshing" State
-     */
-    machine_states[STATE_REFRESHING] = {
-      _onEnter: function () {
-      },
+        /**
+         * List "Refreshing" State
+         */
+        machine_states[STATE_REFRESHING] = {
+            _onEnter: function () {
+                OrderService.list()
+                    .success(function (records) {
+                        if (records.length) {
+                            $scope.list_of_orders = records;
+                            $scope.machine.transition(STATE_DISPLAYED);
+                        } else {
+                            $scope.list_of_orders = [];
+                            $scope.machine.transition(STATE_SELECTED);
+                        }
+                    })
+                    .error(function () {
+                        this.transition(STATE_ERRORED);
+                    });
+            }
+        };
 
-      success: function () {
-        this.transition(STATE_DISPLAY);
-      },
+        /**
+         * List "Display" State
+         */
+        machine_states[STATE_DISPLAYED] = {
+            _onEnter: function () {
+                if ($scope.selected_id !== null) {
+                    this.transition(STATE_SELECTED);
+                }
+            }
+        };
 
-      error: function () {
-        this.transition(STATE_ERROR);
-      }
-    };
+        /**
+         * List "Selected" State
+         */
+        machine_states[STATE_SELECTED] = {
+            _onEnter: function () {
+            }
+        };
 
-    /**
-     * List "Display" State
-     */
-    machine_states[STATE_DISPLAY] = {
-      refresh: function () {
-        this.transition(STATE_REFRESHING);
-      }
-    };
+        /**
+         * List "Errored" State
+         */
+        machine_states[STATE_ERRORED] = {
+            _onEnter: function () {
+            }
+        };
 
-    /**
-     * Load an order
-     */
-    machine_events[EVENT_REFRESH] = function () {
-      this.transition(STATE_REFRESHING);
-      // TODO: cutoff any HTTP requests in-progress.
-    };
+        /**
+         * Under the hood, it's Finite State Machine (FSM) using Machina.
+         * @typedef {machina.Fsm} orderFsm
+         */
+        $scope.machine = new machina.Fsm({
+            initialState: STATE_OFFLINE,
+            states: machine_states
+        });
 
-    /**
-     * Under the hood, it's Finite State Machine (FSM) using Machina.
-     * @typedef {machina.Fsm} orderFsm
-     */
-    $scope.machine = new machina.Fsm({
-      initialState: 'offline',
-      states: machine_states,
-      eventListeners: machine_events
+
+        /**
+         * Refresh the list of orders
+         */
+        $scope.machine.on(EVENT_REFRESH, function () {
+
+            this.transition(STATE_REFRESHING);
+        });
+
+        /**
+         * Select an order
+         * @param _id
+         */
+        $scope.machine.on(EVENT_SELECT, function (_id) {
+            $scope.selected_id = _id;
+            $rootScope.$broadcast('dashboard_order_select', {_id: $scope.selected_id});
+            this.transition(STATE_SELECTED);
+        });
+
+        /**
+         * Select an order
+         */
+        $scope.machine.on(EVENT_CREATE, function () {
+            $scope.selected_id = null;
+            $rootScope.$broadcast('dashboard_order_create');
+            this.transition(STATE_DISPLAYED);
+        });
+
+        /**
+         * View-Machine Binding for "refresh()"
+         */
+        $scope.refresh = function () {
+            $scope.machine.trigger(EVENT_REFRESH);
+        };
+
+        /**
+         * View-Machine Binding for "create()"
+         */
+        $scope.create = function () {
+            $scope.machine.trigger(EVENT_CREATE);
+        };
+
+        /**
+         * View-Machine Binding for "select(_id)"
+         * @param _id
+         */
+        $scope.select = function (_id) {
+            $scope.machine.trigger(EVENT_SELECT, _id);
+        };
+
     });
-
-    /**
-     * Load an <prder>
-     * @param id
-     */
-    $scope.refresh = function (id) {
-      $scope.machine.handle(EVENT_REFRESH, id);
-    };
-
-    // Begin by refreshing list, and show the Create Order form.
-    $scope.refresh();
-
-  });

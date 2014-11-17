@@ -1,27 +1,27 @@
 .order_editor(ng-controller="OrderEditorCtrl")
 
   h1
-    div(ng-switch="machine.state")
-      div(ng-switch-when="offline")
-        | Off
-      div(ng-switch-when="create")
+    span(ng-switch="machine.state")
+      span(ng-switch-when="offline")
+        | Hiya
+      span(ng-switch-when="create")
         | Create Order
-      div(ng-switch-when="loading")
+      span(ng-switch-when="loading")
         | Loading..
-      div(ng-switch-when="show")
+      span(ng-switch-when="show")
         | Order #
-        span(ng-bind="current_order.purchase_number")
-      div(ng-switch-when="saving")
+        span {{ current_order.purchase_number }}
+      span(ng-switch-when="saving")
         | Saving #
-        span(ng-bind="current_order.purchase_number")
+        span {{ current_order.purchase_number }}
         | ..
-      div(ng-switch-when="creating")
+      span(ng-switch-when="creating")
         | Creating..
-      div(ng-switch-when="error")
-        | Error!
+      span(ng-switch-when="error")
+        | Error
     .current_state(ng-bind="machine.state",ng-class="machine.state")
 
-  // Proper Bootstrap 3+ <form> herein
+  // Form is made with Bootstrap
   form(role='form')
 
     .form-group
@@ -44,5 +44,4 @@
       button.btn.right.btn-danger Delete
 
   // else loading Order
-  .loading(ng-show="machine.state==='loading'")
-    progressbar.progress-striped.active(value="100",type="success")
+  .loading(ng-show="is_loading()")

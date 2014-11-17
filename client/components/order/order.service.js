@@ -49,7 +49,7 @@ angular.module('httpModelAsAServiceApp').service('OrderService', function ($http
    * @return {HttpPromise|Promise}
    */
   OrderService.create = function (record) {
-    if (!'_id' in record) {
+    if (!('_id' in record)) {
       return $http.post('/api/orders', record);
     } else {
       return $q.reject();
@@ -73,7 +73,7 @@ angular.module('httpModelAsAServiceApp').service('OrderService', function ($http
   OrderService.update = function (record) {
     if (typeof '_id' in record && record._id) {
       var data = record;
-      delete data['_id'];
+      delete data._id;
       return $http.post('/api/orders/' + record._id, data);
     } else {
       return $q.reject();

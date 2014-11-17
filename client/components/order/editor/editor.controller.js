@@ -31,6 +31,13 @@ angular.module('httpModelAsAServiceApp')
       , EVENT_LOAD = 'load'
       , EVENT_CREATE = 'create'
       , EVENT_SAVE = 'save'
+    // list of states where loading bar ought to be displayed
+      , states_where_is_loading =
+        [
+          STATE_CREATING,
+          STATE_LOADING,
+          STATE_SAVING
+        ]
       ;
 
     /** @property {Object} */
@@ -169,6 +176,13 @@ angular.module('httpModelAsAServiceApp')
      */
     $scope.save = function () {
       $scope.machine.handle(EVENT_SAVE);
+    };
+
+    /**
+     * Return % loaded >0 if loading, else false
+     */
+    $scope.is_loading = function () {
+      return states_where_is_loading.indexOf($scope.machine.state) >= 0;
     };
 
   });

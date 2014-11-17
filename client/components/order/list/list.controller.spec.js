@@ -37,13 +37,16 @@ describe('Controller: OrderListCtrl', function () {
   });
 
   it('should create a new order', function () {
-    $httpBackend.flush();
-    $httpBackend.expectPOST('/api/orders', test_new_order)
-      .respond(test_new_order);
-    $httpBackend.expectGET('/api/orders')
-      .respond(test_order_index);
-    scope.create(test_new_order);
-    $httpBackend.flush();
+    // TODO: test create triggers a $rootScope.$broadcast to create
+  });
+
+  it('should refresh the list of orders from the server', function () {
+    // TODO: test create triggers a OrderService call
+  });
+
+  it('should select an order from the list', function () {
+    // TODO: test select triggers a $rootScope.$broadcast to select
+    // TODO: test select assigns selected_id
   });
 
 });
@@ -77,15 +80,6 @@ var test_order_one = {
     "info": "Ov bueka woaf sasjo ov cul dojnamdoh nuil ilwikzos raite zubatfe mu dugij. Awututmer wow omesa hianuwi vupwa irapowi hicwobi suko hipot ma rumulamu uw. Ehemug eha vecwok degmobsav ni hun ohhuglaj ag edge fenah hotnudef gupnar ra jewopzi mil. Hojtal manwivmig vodpad pepemuh izejale car vuftahkob cebudel ce wijimuw ohofusur kaccoze wuhbob udeicvus. Doof geufmu ubicun husija nose wuvu aj esedoheki wevizki fufumi misva pupjalud dagvu uvo az.",
     "amount": 159,
     "_id": "5467e8cc8a4f0313533ef422",
-    "__v": 0
-  }
-  , test_new_order = {
-    "purchase_number": 109,
-    "created_at": "2014-11-15T23:59:08.359Z",
-    "name": "fjjwoe",
-    "info": "Nuil ilwikzos raite zubatfe mu dugij ov bueka woaf sasjo ov cul dojnamdoh. Nicwobi suko hipot ma rumulamu uw. Ehemug eha vecwok degmobsav ni hun ohhuglaj ag edge fenah hotnudef gupnar ra jewopzi mil. Hojtal manwivmig vodpad pepemuh izejale car vuftahkob cebudel ce wijimuw ohofusur kaccoze wuvu aj esedoheki wevizki fufumi misva pupjalud dagvu uvo az wuhbob udeicvus. Doof geufmu ubicun husija nose.",
-    "amount": 23,
-    "_id": "563786c48aef0d31c53ef422",
     "__v": 0
   }
   , test_order_index = [
