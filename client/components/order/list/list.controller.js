@@ -15,10 +15,25 @@
 angular.module('httpModelAsAServiceApp')
     .controller('OrderListCtrl', function ($scope, $rootScope, OrderService) {
         'use strict';
+
+        /**
+         * @type {Array} to store order data-objects to back the list.
+         */
+        $scope.list_of_orders = [];
+
+        /**
+         * @type {*|null} <id> of the currently selected order
+         */
+        $scope.selected_id = null;
+
+        /**
+         * We are using a simple JavaScript implementation of a
+         * Finite State Machine (FSM) using a library called Machina
+         * in order to build a "View-Machine" (type of View-Controller).
+         */
         /* global machina */
         var machine_states = {}
         // states
-            , STATE_OFFLINE = 'offline'
             , STATE_REFRESHING = 'refreshing'
             , STATE_DISPLAYED = 'displayed'
             , STATE_SELECTED = 'selected'
@@ -28,22 +43,6 @@ angular.module('httpModelAsAServiceApp')
             , EVENT_SELECT = 'select'
             , EVENT_CREATE = 'create'
             ;
-        /** @property {Array} */
-        $scope.list_of_orders = [];
-        /** @property {*|null} */
-        $scope.selected_id = null;
-
-        /**
-         * List "Offline" State
-         */
-        machine_states[STATE_OFFLINE] = {
-            _onEnter: function () {
-                this.handle('start');
-            },
-            start: function () {
-                this.transition(STATE_REFRESHING);
-            }
-        };
 
         /**
          * List "Refreshing" State
@@ -98,7 +97,7 @@ angular.module('httpModelAsAServiceApp')
          * @typedef {machina.Fsm} orderFsm
          */
         $scope.machine = new machina.Fsm({
-            initialState: STATE_OFFLINE,
+            initialState: STATE_REFRESHING,
             states: machine_states
         });
 
@@ -107,7 +106,6 @@ angular.module('httpModelAsAServiceApp')
          * Refresh the list of orders
          */
         $scope.machine.on(EVENT_REFRESH, function () {
-
             this.transition(STATE_REFRESHING);
         });
 
@@ -131,23 +129,14 @@ angular.module('httpModelAsAServiceApp')
         });
 
         /**
-         * View-Machine Binding for "refresh()"
+         * View-Machine Bindings
          */
         $scope.refresh = function () {
             $scope.machine.trigger(EVENT_REFRESH);
         };
-
-        /**
-         * View-Machine Binding for "create()"
-         */
         $scope.create = function () {
             $scope.machine.trigger(EVENT_CREATE);
         };
-
-        /**
-         * View-Machine Binding for "select(_id)"
-         * @param _id
-         */
         $scope.select = function (_id) {
             $scope.machine.trigger(EVENT_SELECT, _id);
         };

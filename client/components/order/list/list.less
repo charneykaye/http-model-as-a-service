@@ -2,19 +2,24 @@
 @import '../../mixin';
 
 .order_list {
+  h1 {
+    .btn {
+      float: right;
+    }
+  }
   .current_state {
     .dashboard_current_state;
     &.refreshing {
-      background-color:@warning;
+      background-color: @warning;
     }
     &.errored {
-      background-color:@danger;
+      background-color: @danger;
     }
     &.displayed {
-      background-color:@success;
+      background-color: @success;
     }
     &.selected {
-      background-color:@success;
+      background-color: @success;
     }
   }
 }
