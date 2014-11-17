@@ -5,6 +5,9 @@
   h1 {
     .btn {
       float: right;
+      background-color:darken(@white,3);
+      border-color:darken(@white,5);
+      margin-left:15px;
     }
   }
   .current_state {
@@ -22,4 +25,15 @@
       background-color: @success;
     }
   }
+  ul.list_of_things {
+    padding-left: 0;
+    li {
+      .thing_selection;
+      font-weight: bold;
+      padding: 0.5em;
+      list-style: none;
+      margin-bottom: 0.5em;
+    }
+  }
+
 }

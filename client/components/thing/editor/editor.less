@@ -2,9 +2,19 @@
 @import '../../mixin';
 
 .thing_editor {
+  h1 {
+    a.btn.create {
+      .thing_selection;
+      margin-left: 1em;
+      padding: 0.3em 0.7em;
+    }
+  }
   .current_state {
     .dashboard_current_state;
     &.loading {
+      background-color: @warning;
+    }
+    &.new {
       background-color: @warning;
     }
     &.errored {
@@ -14,4 +24,23 @@
       background-color: @success;
     }
   }
+  .choices {
+    .btn {
+      &.left {
+        float: left;
+        margin-right: 20px;
+      }
+      &.right {
+        float: right;
+        margin-left: 20px;
+      }
+    }
+    .btn-danger {
+      opacity: 0.4;
+      &:hover {
+        opacity: 1.0;
+      }
+    }
+  }
+
 }

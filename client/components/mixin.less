@@ -15,3 +15,20 @@
     background-color: @state-offline-bg;
   }
 }
+
+.thing_selection {
+  color: @normal-text-color;
+  cursor: pointer;
+  border: 1px solid;
+  border-color: @thing-border-top-color @thing-border-right-color @thing-border-bottom-color @thing-border-left-color;
+  background-color: lighten(@pop-color, 50);
+  &:hover {
+    color: @invert-text-color;
+    background-color: lighten(@pop-color, 35);
+  }
+  &.current, &.current:hover {
+    background-color: @invert-bg-color;
+    color: @invert-text-color;
+    cursor: default;
+  }
+}

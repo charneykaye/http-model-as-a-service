@@ -4,7 +4,7 @@
     span(ng-switch="machine.state")
       span(ng-switch-when="offline")
         | Hiya
-      span(ng-switch-when="create")
+      span(ng-switch-when="new")
         | Create Thing
       span(ng-switch-when="loading")
         | Loading..
@@ -39,9 +39,13 @@
     hr
 
     .form-group.choices
-      button.btn.left.btn-success(ng-click='save()') Save
-      button.btn.left.btn-default(ng-click='create()') Cancel
-      button.btn.right.btn-danger Delete
+      button.btn.left.btn-success(ng-click='save()')
+        span(ng-show='is_new()') Create
+        span(ng-show='is_existing()') Update
+      button.btn.left.btn-default(ng-click='cancel()')
+        span(ng-show='is_new()') Cancel
+        span(ng-show='is_existing()') Close
+      button.btn.right.btn-danger(ng-click='destroy()',ng-show='is_existing()') Delete
 
   // else loading Thing
   .loading(ng-show="is_loading()")

@@ -31,7 +31,7 @@ angular.module('httpModelAsAServiceApp')
     var _machine = {}
     // states
       , STATE_OFFLINE = 'offline'
-      , STATE_NEW = 'create'
+      , STATE_NEW = 'new'
       , STATE_LOADING = 'loading'
       , STATE_DISPLAYED = 'displayed'
       , STATE_SAVING = 'saving'
@@ -77,9 +77,11 @@ angular.module('httpModelAsAServiceApp')
       }
     };
     _machine[STATE_NEW][EVENT_SAVE] = function () {
+      // TODO: validate data before transition!!
       this.transition(STATE_CREATING);
     };
     _machine[STATE_NEW][EVENT_CANCEL] = function () {
+      // TODO: confirm before discarding new record
       this.transition(STATE_OFFLINE);
     };
 
@@ -102,12 +104,12 @@ angular.module('httpModelAsAServiceApp')
     _machine[STATE_LOADING] = {
       _onEnter: function () {
         ThingService.show($scope.loading_id)
-          .success(function(record){
+          .success(function (record) {
             $scope.current_thing = record;
             // TODO: display flash message "loaded thing"
             $scope.machine.transition(STATE_DISPLAYED);
           })
-          .error(function(){
+          .error(function () {
             // TODO: display flash message "thing failed to load"
             $scope.machine.transition(STATE_ERRORED);
           });
@@ -195,6 +197,20 @@ angular.module('httpModelAsAServiceApp')
      */
     $scope.is_form = function () {
       return states_where_is_form.indexOf($scope.machine.state) >= 0;
+    };
+
+    /**
+     * Return whether the current thing is an existing record
+     */
+    $scope.is_existing = function () {
+      return '_id' in $scope.current_thing && $scope.current_thing._id;
+    };
+
+    /**
+     * Return whether the current thing is an existing record
+     */
+    $scope.is_new = function () {
+      return !$scope.is_existing();
     };
 
   });
