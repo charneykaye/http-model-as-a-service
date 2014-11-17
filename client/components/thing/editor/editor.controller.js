@@ -31,11 +31,12 @@ angular.module('httpModelAsAServiceApp')
     var _machine = {}
     // states
       , STATE_OFFLINE = 'offline'
-      , STATE_NEW = 'new'
       , STATE_LOADING = 'loading'
-      , STATE_DISPLAYED = 'displayed'
       , STATE_SAVING = 'saving'
       , STATE_CREATING = 'creating'
+      , STATE_DESTROYING = 'destroying'
+      , STATE_EDIT_NEW = 'edit_new'
+      , STATE_EDIT_EXISTING = 'edit_existing'
       , STATE_ERRORED = 'errored'
     // events
       , EVENT_LOAD = 'load'
@@ -52,8 +53,8 @@ angular.module('httpModelAsAServiceApp')
     // list of states where input form ought to be displayed
       , states_where_is_form =
         [
-          STATE_NEW,
-          STATE_DISPLAYED
+          STATE_EDIT_NEW,
+          STATE_EDIT_EXISTING
         ]
       ;
 
@@ -62,25 +63,26 @@ angular.module('httpModelAsAServiceApp')
      */
     _machine[STATE_OFFLINE] = {
       _onEnter: function () {
+        $rootScope.$broadcast('thing_editor_clear');
         $scope.loading_id = null;
         $scope.current_thing = {};
       }
     };
 
     /**
-     * Editor "New" State
+     * Editor "Edit New" State
      */
-    _machine[STATE_NEW] = {
+    _machine[STATE_EDIT_NEW] = {
       _onEnter: function () {
         $scope.loading_id = null;
         $scope.current_thing = {};
       }
     };
-    _machine[STATE_NEW][EVENT_SAVE] = function () {
+    _machine[STATE_EDIT_NEW][EVENT_SAVE] = function () {
       // TODO: validate data before transition!!
       this.transition(STATE_CREATING);
     };
-    _machine[STATE_NEW][EVENT_CANCEL] = function () {
+    _machine[STATE_EDIT_NEW][EVENT_CANCEL] = function () {
       // TODO: confirm before discarding new record
       this.transition(STATE_OFFLINE);
     };
@@ -91,7 +93,7 @@ angular.module('httpModelAsAServiceApp')
     _machine[STATE_CREATING] = {
       _onEnter: function () {
         // TODO: implement ThingService to create $scope.current_thing
-        // this.transition(STATE_DISPLAYED);
+        // this.transition(STATE_EDIT_EXISTING);
         // TODO: display flash message "thing created"
         // TODO: display errors on input form fields
         // TODO: display flash message "thing failed to load"
@@ -107,7 +109,7 @@ angular.module('httpModelAsAServiceApp')
           .success(function (record) {
             $scope.current_thing = record;
             // TODO: display flash message "loaded thing"
-            $scope.machine.transition(STATE_DISPLAYED);
+            $scope.machine.transition(STATE_EDIT_EXISTING);
           })
           .error(function () {
             // TODO: display flash message "thing failed to load"
@@ -120,11 +122,22 @@ angular.module('httpModelAsAServiceApp')
     };
 
     /**
-     * Editor "Show" State
+     * Editor "Edit Existing" State
      */
-    _machine[STATE_DISPLAYED] = {
+    _machine[STATE_EDIT_EXISTING] = {
       _onEnter: function () {
       }
+    };
+    _machine[STATE_EDIT_EXISTING][EVENT_SAVE] = function () {
+      // TODO: validate data before transition!!
+      this.transition(STATE_SAVING);
+    };
+    _machine[STATE_EDIT_EXISTING][EVENT_CANCEL] = function () {
+      // TODO: confirm before discarding changes
+      this.transition(STATE_OFFLINE);
+    };
+    _machine[STATE_EDIT_EXISTING][EVENT_DESTROY] = function () {
+      this.transition(STATE_DESTROYING);
     };
 
     /**
@@ -135,6 +148,16 @@ angular.module('httpModelAsAServiceApp')
         // TODO: implement ThingService to save the existing record
         // TODO: display errors on input form fields
         // TODO: display flash message "thing failed to save"
+      }
+    };
+
+    /**
+     * Editor "Saving" State
+     */
+    _machine[STATE_DESTROYING] = {
+      _onEnter: function () {
+        // TODO: implement ThingService to destroy the existing record
+        // TODO: display flash message "thing failed to destroy"
       }
     };
 
@@ -173,7 +196,7 @@ angular.module('httpModelAsAServiceApp')
       $scope.machine.trigger(EVENT_LOAD, _id);
     });
     $rootScope.$on('thing_list_create', function () {
-      $scope.machine.transition(STATE_NEW);
+      $scope.machine.transition(STATE_EDIT_NEW);
     });
     $scope.save = function () {
       $scope.machine.handle(EVENT_SAVE);

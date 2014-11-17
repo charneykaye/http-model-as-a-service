@@ -41,6 +41,7 @@ angular.module('httpModelAsAServiceApp')
     // events
       , EVENT_REFRESH = 'refresh'
       , EVENT_SELECT = 'select'
+      , EVENT_DESELECT = 'deselect'
       , EVENT_CREATE = 'create'
       ;
 
@@ -83,6 +84,10 @@ angular.module('httpModelAsAServiceApp')
       _onEnter: function () {
       }
     };
+    _machine[STATE_SELECTED][EVENT_DESELECT] = function() {
+      $scope.selected_id = null;
+      this.transition(STATE_DISPLAYED);
+    };
 
     /**
      * List "Errored" State
@@ -120,12 +125,11 @@ angular.module('httpModelAsAServiceApp')
     });
 
     /**
-     * Select an thing
+     * Create a new thing
      */
     $scope.machine.on(EVENT_CREATE, function () {
-      $scope.selected_id = null;
       $rootScope.$broadcast('thing_list_create');
-      this.transition(STATE_DISPLAYED);
+      this.handle(EVENT_DESELECT);
     });
 
     /**
@@ -140,5 +144,8 @@ angular.module('httpModelAsAServiceApp')
     $scope.select = function (thing) {
       $scope.machine.trigger(EVENT_SELECT, thing._id);
     };
+    $rootScope.$on('thing_editor_clear', function () {
+      $scope.machine.handle(EVENT_DESELECT);
+    });
 
   });

@@ -11,16 +11,18 @@
   }
   .current_state {
     .dashboard_current_state;
-    &.loading {
+    &.loading,
+    &.saving,
+    &.destroying {
       background-color: @warning;
     }
-    &.new {
+    &.edit_new {
       background-color: @warning;
     }
     &.errored {
       background-color: @danger;
     }
-    &.displayed {
+    &.edit_existing {
       background-color: @success;
     }
   }
@@ -36,9 +38,14 @@
       }
     }
     .btn-danger {
-      opacity: 0.4;
+      opacity: 0.5;
+      color: @danger;
+      background-color: lighten(desaturate(@danger, 50), 50);
+      border-color: lighten(desaturate(@danger, 40), 40);
       &:hover {
         opacity: 1.0;
+        background-color: @danger;
+        color: @white;
       }
     }
   }

@@ -50,7 +50,7 @@ describe('Service: ThingService', function () {
  * @type {*}
  */
 var test_thing_one = {
-    "purchase_number": 100,
+    "unique_number": 100,
     "created_at": "2014-11-15T23:58:48.333Z",
     "name": "ovni",
     "info": "Bip ukwemati lunda hoc gobohla fa wepwaw lesegihes bu ca uvirah zukamzo ditto god kuji in ute ah. Lom buovobo duvic pucule hovihiw to acbu rujacac ugilibep pu mufofel owa. Merup vile ibe vuwi kozu pitiwa otohihu vuedzac ipi jedbi ses di gur. Ve ojciji sawso mulutfo came ki faf nuvbilu tec zecaca wapra tekuin ewwiem fasaac wesseobi ecu sifep. Piba nunkal nuthoze huc izkulno ko ho hel gilse nazwoena rugoha titehvu omojav jogmuvowa deurhun. Ji telofubow ewe no wuto hekur sepuz laj no ultoonu wav kun ne enocomug nok noperij.",
@@ -59,7 +59,7 @@ var test_thing_one = {
     "__v": 0
   }
   , test_thing_two = {
-    "purchase_number": 101,
+    "unique_number": 101,
     "created_at": "2014-11-15T23:58:58.358Z",
     "name": "fi",
     "info": "Vamgiud jokra ahkudwu jicavu tez on cak ji ziccepnar ma obdo wuk erwabus zow ohupu. Tuadipo wo ah jus okweko vugiwon wihufuce ti demacoj salla zu afkiwove wubdak uk cozubu ko buto. Afotuspol zu al vehfaim olmitec ajsiczu ket ojiaf vavta pub jisior pucecek gecfuf mod nucrew. Bo otlo iwevud ikaob bofciaju gajawwu be pazaz mig ga imo usi wufwor tatefa nessuj jijlipot. Co gas gij diutjo civ zetlaeze looje cej zov segder wivi ufmemza kecesnes gawul jibcu ojuiw voketofi.",
@@ -68,7 +68,7 @@ var test_thing_one = {
     "__v": 0
   }
   , test_thing_three = {
-    "purchase_number": 102,
+    "unique_number": 102,
     "created_at": "2014-11-15T23:59:08.355Z",
     "name": "visow",
     "info": "Ov bueka woaf sasjo ov cul dojnamdoh nuil ilwikzos raite zubatfe mu dugij. Awututmer wow omesa hianuwi vupwa irapowi hicwobi suko hipot ma rumulamu uw. Ehemug eha vecwok degmobsav ni hun ohhuglaj ag edge fenah hotnudef gupnar ra jewopzi mil. Hojtal manwivmig vodpad pepemuh izejale car vuftahkob cebudel ce wijimuw ohofusur kaccoze wuhbob udeicvus. Doof geufmu ubicun husija nose wuvu aj esedoheki wevizki fufumi misva pupjalud dagvu uvo az.",
@@ -78,7 +78,7 @@ var test_thing_one = {
   }
 /*
  , test_new_thing = {
- "purchase_number": 109,
+ "unique_number": 109,
  "created_at": "2014-11-15T23:59:08.359Z",
  "name": "fjjwoe",
  "info": "Nuil ilwikzos raite zubatfe mu dugij ov bueka woaf sasjo ov cul dojnamdoh. Nicwobi suko hipot ma rumulamu uw. Ehemug eha vecwok degmobsav ni hun ohhuglaj ag edge fenah hotnudef gupnar ra jewopzi mil. Hojtal manwivmig vodpad pepemuh izejale car vuftahkob cebudel ce wijimuw ohofusur kaccoze wuvu aj esedoheki wevizki fufumi misva pupjalud dagvu uvo az wuhbob udeicvus. Doof geufmu ubicun husija nose.",

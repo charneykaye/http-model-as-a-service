@@ -3,20 +3,24 @@
   h1
     span(ng-switch="machine.state")
       span(ng-switch-when="offline")
-        | Hiya
-      span(ng-switch-when="new")
-        | Create Thing
+        | ...
       span(ng-switch-when="loading")
         | Loading..
-      span(ng-switch-when="displayed")
-        | Thing #
-        span {{ current_thing.purchase_number }}
+      span(ng-switch-when="edit_new")
+        | New Thing
+      span(ng-switch-when="edit_existing")
+        | Edit Thing #
+        span {{ current_thing.unique_number }}
       span(ng-switch-when="saving")
         | Saving #
-        span {{ current_thing.purchase_number }}
+        span {{ current_thing.unique_number }}
         | ..
       span(ng-switch-when="creating")
         | Creating..
+      span(ng-switch-when="destroying")
+        | Destroying #
+        span {{ current_thing.unique_number }}
+        | ..
       span(ng-switch-when="error")
         | Error
     .current_state(ng-bind="machine.state",ng-class="machine.state")

@@ -25,7 +25,7 @@ angular.module('httpModelAsAServiceApp').service('ThingService', function ($http
    * @property {String} name
    * @property {String} info
    * @property {Number} amount
-   * @property {Number} purchase_number
+   * @property {Number} unique_number
    * @property {Date} created_at
    */
 

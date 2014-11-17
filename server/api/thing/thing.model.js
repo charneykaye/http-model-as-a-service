@@ -15,14 +15,14 @@ var mongoose = require('mongoose')
  * @typedef {*} Thing
  * @property {String} name
  * @property {String} info
- * @property {Number} purchase_number
+ * @property {Number} unique_number
  * @property {Number} amount
  * @property {Date} created_at
  */
 var thingSchema = new Schema({
   name: String,
   info: String,
-  purchase_number: Number,
+  unique_number: Number,
   amount: Number,
   created_at: Date
 });
@@ -49,11 +49,11 @@ thingSchema.pre("save", function (next) {
 });
 
 /**
- * Auto-increment purchase_number
+ * Auto-increment unique_number
  */
 thingSchema.plugin(autoIncrement.plugin, {
   model: 'thing',
-  field: 'purchase_number',
+  field: 'unique_number',
   startAt: 100
 });
 
