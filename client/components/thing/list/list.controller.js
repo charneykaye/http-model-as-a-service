@@ -8,28 +8,28 @@
  * front-end construction, specifically separating out concerns of a "model",
  * relying for our data models entirely on a JSON API.
  *
- * Orders List U.I. is a Finite State Machine (FSM) using Machina.
+ * Things List U.I. is a Finite State Machine (FSM) using Machina.
  *
- * @typedef {angular.controller} OrderListCtrl
+ * @typedef {angular.controller} ThingListCtrl
  */
 angular.module('httpModelAsAServiceApp')
-  .controller('OrderListCtrl', function ($scope, $rootScope, OrderService) {
+  .controller('ThingListCtrl', function ($scope, $rootScope, ThingService) {
     'use strict';
 
     /**
-     * @type {Array} to store order data-objects to back the list.
+     * @type {Array} to store thing data-objects to back the list.
      */
-    $scope.list_of_orders = [];
+    $scope.list_of_things = [];
 
     /**
-     * @type {*|null} <id> of the currently selected order
+     * @type {*|null} <id> of the currently selected thing
      */
     $scope.selected_id = null;
 
     /**
      * We are using a simple JavaScript implementation of a
      * Finite State Machine (FSM) using a library called Machina
-     * in order to build a "View-Machine" (type of View-Controller).
+     * in thing to build a "View-Machine" (type of View-Controller).
      */
     /* global machina */
     var _machine = {}
@@ -49,13 +49,13 @@ angular.module('httpModelAsAServiceApp')
      */
     _machine[STATE_REFRESHING] = {
       _onEnter: function () {
-        OrderService.list()
+        ThingService.list()
           .success(function (records) {
             if (records.length) {
-              $scope.list_of_orders = records;
+              $scope.list_of_things = records;
               $scope.machine.transition(STATE_DISPLAYED);
             } else {
-              $scope.list_of_orders = [];
+              $scope.list_of_things = [];
               $scope.machine.transition(STATE_SELECTED);
             }
           })
@@ -94,7 +94,7 @@ angular.module('httpModelAsAServiceApp')
 
     /**
      * Under the hood, it's Finite State Machine (FSM) using Machina.
-     * @typedef {machina.Fsm} orderFsm
+     * @typedef {machina.Fsm} thingFsm
      */
     $scope.machine = new machina.Fsm({
       initialState: STATE_REFRESHING,
@@ -103,28 +103,28 @@ angular.module('httpModelAsAServiceApp')
 
 
     /**
-     * Refresh the list of orders
+     * Refresh the list of things
      */
     $scope.machine.on(EVENT_REFRESH, function () {
       this.transition(STATE_REFRESHING);
     });
 
     /**
-     * Select an order
+     * Select an thing
      * @param _id
      */
     $scope.machine.on(EVENT_SELECT, function (_id) {
       $scope.selected_id = _id;
-      $rootScope.$broadcast('order_list_select', $scope.selected_id);
+      $rootScope.$broadcast('thing_list_select', $scope.selected_id);
       this.transition(STATE_SELECTED);
     });
 
     /**
-     * Select an order
+     * Select an thing
      */
     $scope.machine.on(EVENT_CREATE, function () {
       $scope.selected_id = null;
-      $rootScope.$broadcast('order_list_create');
+      $rootScope.$broadcast('thing_list_create');
       this.transition(STATE_DISPLAYED);
     });
 
@@ -137,8 +137,8 @@ angular.module('httpModelAsAServiceApp')
     $scope.create = function () {
       $scope.machine.trigger(EVENT_CREATE);
     };
-    $scope.select = function (order) {
-      $scope.machine.trigger(EVENT_SELECT, order._id);
+    $scope.select = function (thing) {
+      $scope.machine.trigger(EVENT_SELECT, thing._id);
     };
 
   });

@@ -8,20 +8,20 @@
  * front-end construction, specifically separating out concerns of a "model",
  * relying for our data models entirely on a JSON API.
  *
- * @typedef {angular.service} OrderService
+ * @typedef {angular.service} ThingService
  *
- * OrderService Model-as-a-Service
+ * ThingService Model-as-a-Service
  *
  * REST methods return Angular Promises
  * @typedef {angular.promise} HttpPromise
  *
  */
-angular.module('httpModelAsAServiceApp').service('OrderService', function ($http, $q) {
+angular.module('httpModelAsAServiceApp').service('ThingService', function ($http, $q) {
   'use strict';
 
   /**
-   * Order Model
-   * @typedef {*} Order
+   * Thing Model
+   * @typedef {*} Thing
    * @property {String} name
    * @property {String} info
    * @property {Number} amount
@@ -30,65 +30,65 @@ angular.module('httpModelAsAServiceApp').service('OrderService', function ($http
    */
 
   /**
-   * Order Service
-   * @typedef {angular.service} OrderService
+   * Thing Service
+   * @typedef {angular.service} ThingService
    */
-  var OrderService = {};
+  var ThingService = {};
 
   /**
-   * Fetch the list of orders via the API.
+   * Fetch the list of things via the API.
    * @returns {HttpPromise}
    */
-  OrderService.list = function () {
-    return $http.get('/api/orders');
+  ThingService.list = function () {
+    return $http.get('/api/things');
   };
 
   /**
-   * Create an Order <record> via the API.
+   * Create an Thing <record> via the API.
    * @param {*} record cannot have an <_id>
    * @return {HttpPromise|Promise}
    */
-  OrderService.create = function (record) {
+  ThingService.create = function (record) {
     if (!('_id' in record)) {
-      return $http.post('/api/orders', record);
+      return $http.post('/api/things', record);
     } else {
       return $q.reject();
     }
   };
 
   /**
-   * Show Order by <_id> from the API.
+   * Show Thing by <_id> from the API.
    * @param _id
    * @returns {HttpPromise}
    */
-  OrderService.show = function (_id) {
-    return $http.get('/api/orders/' + _id.toString());
+  ThingService.show = function (_id) {
+    return $http.get('/api/things/' + _id.toString());
   };
 
   /**
-   * Update an Order <record> via the API.
+   * Update an Thing <record> via the API.
    * @param {*} record must have an <_id>
    * @returns {HttpPromise|Promise}
    */
-  OrderService.update = function (record) {
+  ThingService.update = function (record) {
     if (typeof '_id' in record && record._id) {
       var data = record;
       delete data._id;
-      return $http.post('/api/orders/' + record._id, data);
+      return $http.post('/api/things/' + record._id, data);
     } else {
       return $q.reject();
     }
   };
 
   /**
-   * Destroy an Order by <_id> via the API.
+   * Destroy an Thing by <_id> via the API.
    * @param _id
    * @returns {HttpPromise}
    */
-  OrderService.destroy = function (_id) {
-    return $http.delete('/api/orders/' + _id);
+  ThingService.destroy = function (_id) {
+    return $http.delete('/api/things/' + _id);
   };
 
   // export
-  return OrderService;
+  return ThingService;
 });

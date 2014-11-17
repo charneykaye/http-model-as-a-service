@@ -1,5 +1,5 @@
 /**
- * Order Index
+ * Thing Index
  *
  * Using $http Model-as-a-Service in AngularJS
  * @author Nick Kaye <nick.c.kaye@gmail.com>
@@ -9,7 +9,7 @@
 'use strict';
 
 var express = require('express');
-var controller = require('./order.controller');
+var controller = require('./thing.controller');
 
 var router = express.Router();
 

@@ -8,16 +8,16 @@
  * front-end construction, specifically separating out concerns of a "model",
  * relying for our data models entirely on a JSON API.
  *
- * Orders Editor U.I. is a Finite State Machine (FSM) using Machina.
+ * Things Editor U.I. is a Finite State Machine (FSM) using Machina.
  *
- * @typedef {angular.controller} OrderEditorCtrl
+ * @typedef {angular.controller} ThingEditorCtrl
  */
 angular.module('httpModelAsAServiceApp')
-  .controller('OrderEditorCtrl', function ($scope, $rootScope, OrderService) {
+  .controller('ThingEditorCtrl', function ($scope, $rootScope, ThingService) {
     'use strict';
 
-    /** @type {Object} to hold current order data-object */
-    $scope.current_order = {};
+    /** @type {Object} to hold current thing data-object */
+    $scope.current_thing = {};
 
     /** @type {*|null} to hold current loading id */
     $scope.loading_id = null;
@@ -25,7 +25,7 @@ angular.module('httpModelAsAServiceApp')
     /**
      * We are using a simple JavaScript implementation of a
      * Finite State Machine (FSM) using a library called Machina
-     * in order to build a "View-Machine" (type of View-Controller).
+     * in thing to build a "View-Machine" (type of View-Controller).
      */
     /* global machina */
     var _machine = {}
@@ -63,7 +63,7 @@ angular.module('httpModelAsAServiceApp')
     _machine[STATE_OFFLINE] = {
       _onEnter: function () {
         $scope.loading_id = null;
-        $scope.current_order = {};
+        $scope.current_thing = {};
       }
     };
 
@@ -73,7 +73,7 @@ angular.module('httpModelAsAServiceApp')
     _machine[STATE_NEW] = {
       _onEnter: function () {
         $scope.loading_id = null;
-        $scope.current_order = {};
+        $scope.current_thing = {};
       }
     };
     _machine[STATE_NEW][EVENT_SAVE] = function () {
@@ -88,11 +88,11 @@ angular.module('httpModelAsAServiceApp')
      */
     _machine[STATE_CREATING] = {
       _onEnter: function () {
-        // TODO: implement OrderService to create $scope.current_order
+        // TODO: implement ThingService to create $scope.current_thing
         // this.transition(STATE_DISPLAYED);
-        // TODO: display flash message "order created"
+        // TODO: display flash message "thing created"
         // TODO: display errors on input form fields
-        // TODO: display flash message "order failed to load"
+        // TODO: display flash message "thing failed to load"
       }
     };
 
@@ -101,14 +101,14 @@ angular.module('httpModelAsAServiceApp')
      */
     _machine[STATE_LOADING] = {
       _onEnter: function () {
-        OrderService.show($scope.loading_id)
+        ThingService.show($scope.loading_id)
           .success(function(record){
-            $scope.current_order = record;
-            // TODO: display flash message "loaded order"
+            $scope.current_thing = record;
+            // TODO: display flash message "loaded thing"
             $scope.machine.transition(STATE_DISPLAYED);
           })
           .error(function(){
-            // TODO: display flash message "order failed to load"
+            // TODO: display flash message "thing failed to load"
             $scope.machine.transition(STATE_ERRORED);
           });
       },
@@ -130,9 +130,9 @@ angular.module('httpModelAsAServiceApp')
      */
     _machine[STATE_SAVING] = {
       _onEnter: function () {
-        // TODO: implement OrderService to save the existing record
+        // TODO: implement ThingService to save the existing record
         // TODO: display errors on input form fields
-        // TODO: display flash message "order failed to save"
+        // TODO: display flash message "thing failed to save"
       }
     };
 
@@ -142,13 +142,13 @@ angular.module('httpModelAsAServiceApp')
     _machine[STATE_ERRORED] = {
       _onEnter: function () {
         $scope.loading_id = null;
-        $scope.current_order = {};
+        $scope.current_thing = {};
       }
     };
 
     /**
      * Under the hood, it's Finite State Machine (FSM) using Machina.
-     * @typedef {machina.Fsm} orderFsm
+     * @typedef {machina.Fsm} thingFsm
      */
     $scope.machine = new machina.Fsm({
       initialState: STATE_OFFLINE,
@@ -156,7 +156,7 @@ angular.module('httpModelAsAServiceApp')
     });
 
     /**
-     * Load an order
+     * Load an thing
      * @param id
      */
     $scope.machine.on(EVENT_LOAD, function (_id) {
@@ -167,10 +167,10 @@ angular.module('httpModelAsAServiceApp')
     /**
      * View-Machine Bindings
      */
-    $rootScope.$on('order_list_select', function (event, _id) {
+    $rootScope.$on('thing_list_select', function (event, _id) {
       $scope.machine.trigger(EVENT_LOAD, _id);
     });
-    $rootScope.$on('order_list_create', function () {
+    $rootScope.$on('thing_list_create', function () {
       $scope.machine.transition(STATE_NEW);
     });
     $scope.save = function () {

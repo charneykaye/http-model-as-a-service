@@ -1,12 +1,12 @@
 /**
- * Order Controller
+ * Thing Controller
  *
  * Using Rails-like standard naming convention for endpoints.
- * GET     /orders              ->  index
- * POST    /orders              ->  create
- * GET     /orders/:id          ->  show
- * PUT     /orders/:id          ->  update
- * DELETE  /orders/:id          ->  destroy
+ * GET     /things              ->  index
+ * POST    /things              ->  create
+ * GET     /things/:id          ->  show
+ * PUT     /things/:id          ->  update
+ * DELETE  /things/:id          ->  destroy
  *
  * Using $http Model-as-a-Service in AngularJS
  * @author Nick Kaye <nick.c.kaye@gmail.com>
@@ -16,73 +16,73 @@
 'use strict';
 
 var _ = require('lodash');
-var order = require('./order.model');
+var thing = require('./thing.model');
 
-// Get list of orders
+// Get list of things
 exports.index = function (req, res) {
-  order.find(function (err, orders) {
+  thing.find(function (err, things) {
     if (err) {
       return handleError(res, err);
     }
-    return res.json(200, orders);
+    return res.json(200, things);
   });
 };
 
-// Get a single order
+// Get a single thing
 exports.show = function (req, res) {
-  order.findById(req.params.id, function (err, order) {
+  thing.findById(req.params.id, function (err, thing) {
     if (err) {
       return handleError(res, err);
     }
-    if (!order) {
+    if (!thing) {
       return res.send(404);
     }
-    return res.json(order);
+    return res.json(thing);
   });
 };
 
-// Creates an order in the DB.
+// Creates an thing in the DB.
 exports.create = function (req, res) {
-  order.create(req.body, function (err, order) {
+  thing.create(req.body, function (err, thing) {
     if (err) {
       return handleError(res, err);
     }
-    return res.json(201, order);
+    return res.json(201, thing);
   });
 };
 
-// Updates an existing order in the DB.
+// Updates an existing thing in the DB.
 exports.update = function (req, res) {
   if (req.body._id) {
     delete req.body._id;
   }
-  order.findById(req.params.id, function (err, order) {
+  thing.findById(req.params.id, function (err, thing) {
     if (err) {
       return handleError(res, err);
     }
-    if (!order) {
+    if (!thing) {
       return res.send(404);
     }
-    var updated = _.merge(order, req.body);
+    var updated = _.merge(thing, req.body);
     updated.save(function (err) {
       if (err) {
         return handleError(res, err);
       }
-      return res.json(200, order);
+      return res.json(200, thing);
     });
   });
 };
 
-// Deletes a order from the DB.
+// Deletes a thing from the DB.
 exports.destroy = function (req, res) {
-  order.findById(req.params.id, function (err, order) {
+  thing.findById(req.params.id, function (err, thing) {
     if (err) {
       return handleError(res, err);
     }
-    if (!order) {
+    if (!thing) {
       return res.send(404);
     }
-    order.remove(function (err) {
+    thing.remove(function (err) {
       if (err) {
         return handleError(res, err);
       }

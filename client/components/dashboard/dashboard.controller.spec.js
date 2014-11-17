@@ -10,9 +10,9 @@
  *
  * Client Tests implement Karma + Jasmine
  */
-describe('Controller: OrderDashboardCtrl', function () {
+describe('Controller: ThingDashboardCtrl', function () {
   'use strict';
-  var OrderDashboardCtrl
+  var ThingDashboardCtrl
     , scope
     , $httpBackend
     ;
@@ -24,7 +24,7 @@ describe('Controller: OrderDashboardCtrl', function () {
   beforeEach(inject(function (_$httpBackend_, $controller, $rootScope) {
     $httpBackend = _$httpBackend_;
     scope = $rootScope.$new();
-    OrderDashboardCtrl = $controller('OrderDashboardCtrl', {
+    ThingDashboardCtrl = $controller('ThingDashboardCtrl', {
       $scope: scope
     });
   }));

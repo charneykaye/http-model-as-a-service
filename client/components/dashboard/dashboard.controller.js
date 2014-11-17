@@ -8,10 +8,10 @@
  * front-end construction, specifically separating out concerns of a "model",
  * relying for our data models entirely on a JSON API.
  *
- * @typedef {angular.controller} OrderDashboardCtrl
+ * @typedef {angular.controller} ThingDashboardCtrl
  */
 angular.module('httpModelAsAServiceApp')
-  .controller('OrderDashboardCtrl', function () {
+  .controller('ThingDashboardCtrl', function () {
     'use strict';
 
     // Ain't nothing going on, but the rent.

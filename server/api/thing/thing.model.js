@@ -1,5 +1,5 @@
 /**
- * Order Model
+ * Thing Model
  *
  * Using $http Model-as-a-Service in AngularJS
  * @author Nick Kaye <nick.c.kaye@gmail.com>
@@ -12,14 +12,14 @@ var mongoose = require('mongoose')
   , autoIncrement = require('mongoose-auto-increment');
 
 /**
- * @typedef {*} Order
+ * @typedef {*} Thing
  * @property {String} name
  * @property {String} info
  * @property {Number} purchase_number
  * @property {Number} amount
  * @property {Date} created_at
  */
-var orderSchema = new Schema({
+var thingSchema = new Schema({
   name: String,
   info: String,
   purchase_number: Number,
@@ -30,7 +30,7 @@ var orderSchema = new Schema({
 /**
  * Pre-save behavior
  */
-orderSchema.pre("save", function (next) {
+thingSchema.pre("save", function (next) {
   if (typeof this.name === 'string') {
     // TODO: sanitize string
   } else {
@@ -51,31 +51,31 @@ orderSchema.pre("save", function (next) {
 /**
  * Auto-increment purchase_number
  */
-orderSchema.plugin(autoIncrement.plugin, {
-  model: 'order',
+thingSchema.plugin(autoIncrement.plugin, {
+  model: 'thing',
   field: 'purchase_number',
   startAt: 100
 });
 
 /**
  * Helper to create an instance with random values (for demo site in production)
- * @function Order.create_random
+ * @function Thing.create_random
  * @param {Function} done callback
  */
-orderSchema.statics.create_random = function (done) {
-  mongoose.model('order').create(generate_random_data(), done);
+thingSchema.statics.create_random = function (done) {
+  mongoose.model('thing').create(generate_random_data(), done);
 };
 
 /**
  * Helper to get an object of random data for all attributes
  * @returns {*}
  */
-orderSchema.statics.get_random_attributes = generate_random_data;
+thingSchema.statics.get_random_attributes = generate_random_data;
 
 /**
  * Export Mongoose model
  */
-module.exports = mongoose.model('order', orderSchema);
+module.exports = mongoose.model('thing', thingSchema);
 
 /**
  * Generate random data for all attributes

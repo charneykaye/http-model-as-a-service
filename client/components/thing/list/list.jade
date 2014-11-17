@@ -1,0 +1,17 @@
+.thing_list(ng-controller="ThingListCtrl")
+
+  h1
+    | Things
+    .current_state(ng-bind="machine.state",ng-class="machine.state")
+    a.btn.create(ng-click="create()",ng-class="{current: current_thing._id === null}")
+      i.fa.fa-plus
+    a.btn.create(ng-click="refresh()")
+      i.fa.fa-refresh
+
+  ul.list_of_things(ng-show="list_of_things")
+    li(ng-repeat="thing in list_of_things",ng-click="select(thing)",ng-class="{current: selected_id === thing._id}")
+      .name(ng-bind="thing.name")
+
+  // else loading List
+  .loading(ng-hide="list_of_things")
+    progressbar.progress-striped.active(value="100",type="success")

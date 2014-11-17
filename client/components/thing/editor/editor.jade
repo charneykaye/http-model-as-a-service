@@ -1,19 +1,19 @@
-.order_editor(ng-controller="OrderEditorCtrl")
+.thing_editor(ng-controller="ThingEditorCtrl")
 
   h1
     span(ng-switch="machine.state")
       span(ng-switch-when="offline")
         | Hiya
       span(ng-switch-when="create")
-        | Create Order
+        | Create Thing
       span(ng-switch-when="loading")
         | Loading..
       span(ng-switch-when="displayed")
-        | Order #
-        span {{ current_order.purchase_number }}
+        | Thing #
+        span {{ current_thing.purchase_number }}
       span(ng-switch-when="saving")
         | Saving #
-        span {{ current_order.purchase_number }}
+        span {{ current_thing.purchase_number }}
         | ..
       span(ng-switch-when="creating")
         | Creating..
@@ -25,16 +25,16 @@
   form(role='form',ng-show="is_form()")
 
     .form-group
-      label(for='orderName') Name
-      input#orderName.form-control(type='text', placeholder='Enter the order name',ng-model="current_order.name",required)
+      label(for='thingName') Name
+      input#thingName.form-control(type='text', placeholder='Enter the thing name',ng-model="current_thing.name",required)
 
     .form-group
-      label(for='orderInfo') Info
-      textarea#orderInfo.form-control(type='text', placeholder='Enter the order info',ng-model="current_order.info",required)
+      label(for='thingInfo') Info
+      textarea#thingInfo.form-control(type='text', placeholder='Enter the thing info',ng-model="current_thing.info",required)
 
     .form-group
-      label(for='orderAmount') Amount
-      input#orderAmount.form-control(type='number', placeholder='Enter the order amount',ng-model="current_order.amount",required)
+      label(for='thingAmount') Amount
+      input#thingAmount.form-control(type='number', placeholder='Enter the thing amount',ng-model="current_thing.amount",required)
 
     hr
 
@@ -43,6 +43,6 @@
       button.btn.left.btn-default(ng-click='create()') Cancel
       button.btn.right.btn-danger Delete
 
-  // else loading Order
+  // else loading Thing
   .loading(ng-show="is_loading()")
     progressbar.progress-striped.active(value="100",type="success")

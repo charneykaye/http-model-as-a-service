@@ -13,7 +13,7 @@
  * Test data
  * @type {*}
  */
-var test_order = {
+var test_thing = {
     "purchase_number": 100,
     "created_at": "2014-11-15T23:58:48.333Z",
     "name": "ovni",
@@ -27,16 +27,16 @@ var test_order = {
 /**
  * Client Tests implement Karma + Jasmine
  */
-describe('Controller: OrderEditorCtrl', function () {
+describe('Controller: ThingEditorCtrl', function () {
   'use strict';
-  var OrderEditorCtrl
+  var ThingEditorCtrl
     , scope
-    , mockOrderService
+    , mockThingService
     ;
 
-  // load the main module with a mocked Order Service
+  // load the main module with a mocked Thing Service
   beforeEach(module("httpModelAsAServiceApp", function ($provide) {
-    mockOrderService = {
+    mockThingService = {
       create: function () {
         // something
       },
@@ -50,30 +50,30 @@ describe('Controller: OrderEditorCtrl', function () {
         // something
       }
     };
-    $provide.value("OrderService", mockOrderService);
+    $provide.value("ThingService", mockThingService);
   }));
 
   // inject controller
   beforeEach(inject(function ($controller, $rootScope) {
     scope = $rootScope.$new();
-    OrderEditorCtrl = $controller('OrderEditorCtrl', {
+    ThingEditorCtrl = $controller('ThingEditorCtrl', {
       $scope: scope
     });
   }));
 
-  it('should Create a new Order via the Service', function () {
+  it('should Create a new Thing via the Service', function () {
 
   });
 
-  it('should Show an Order via the Service', function () {
+  it('should Show an Thing via the Service', function () {
 
   });
 
-  it('should Update an Order via the Service', function () {
+  it('should Update an Thing via the Service', function () {
 
   });
 
-  it('should Delete an Order via the Service', function () {
+  it('should Delete an Thing via the Service', function () {
 
   });
 

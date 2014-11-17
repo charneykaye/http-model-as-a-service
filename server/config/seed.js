@@ -12,9 +12,9 @@
 
 var async = require('async')
   , moment = require('moment')
-  , Order = require('../api/order/order.model')
+  , Thing = require('../api/thing/thing.model')
   , REPEAT_INTERVAL_MS = 10000
-  , ORDER_EXPIRE_SECONDS = 3600
+  , THING_EXPIRE_SECONDS = 3600
   , GENERATE_RECORDS_COUNT = 10
   , interval;
 
@@ -22,14 +22,14 @@ var async = require('async')
  * @returns {Long|Timestamp} before which records expire
  */
 function records_expire_before() {
-  return moment().subtract(ORDER_EXPIRE_SECONDS, 'seconds');
+  return moment().subtract(THING_EXPIRE_SECONDS, 'seconds');
 }
 
 /**
  * @param {Function} done callback
  */
 function destroy_all_records(done) {
-  Order.find({})
+  Thing.find({})
     .remove(done);
 }
 
@@ -37,7 +37,7 @@ function destroy_all_records(done) {
  * @param {Function} done callback
  */
 function destroy_expired_records(done) {
-  Order.find({})
+  Thing.find({})
     .where('created_at').lt(records_expire_before())
     .remove(done);
 }
@@ -46,9 +46,9 @@ function destroy_expired_records(done) {
  * @param {Function} done callback
  */
 function generate_records(done) {
-  Order.count({}, function (err, count) {
+  Thing.count({}, function (err, count) {
     if (count < GENERATE_RECORDS_COUNT) {
-      Order.create_random(done);
+      Thing.create_random(done);
     } else {
       done();
     }

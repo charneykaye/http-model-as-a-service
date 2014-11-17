@@ -10,9 +10,9 @@
  *
  * Client Tests implement Karma + Jasmine
  */
-describe('Service: OrderService', function () {
+describe('Service: ThingService', function () {
   'use strict';
-  var OrderService
+  var ThingService
     , httpBackend
     ;
 
@@ -20,28 +20,28 @@ describe('Service: OrderService', function () {
   beforeEach(module('httpModelAsAServiceApp'));
 
   // inject backend
-  beforeEach(inject(function (_OrderService_, $httpBackend) {
-    OrderService = _OrderService_;
+  beforeEach(inject(function (_ThingService_, $httpBackend) {
+    ThingService = _ThingService_;
     httpBackend = $httpBackend;
   }));
 
-  it('should list orders', function () {
-    httpBackend.expectGET('/api/orders')
-      .respond([test_order_index]);
-    OrderService.list().then(function (response) {
-      expect(response.data).toEqual([test_order_index]);
+  it('should list things', function () {
+    httpBackend.expectGET('/api/things')
+      .respond([test_thing_index]);
+    ThingService.list().then(function (response) {
+      expect(response.data).toEqual([test_thing_index]);
       expect(response.status).toEqual(200);
     });
     httpBackend.flush();
   });
 
-  // TODO: test order create
+  // TODO: test thing create
 
-  // TODO: test order show
+  // TODO: test thing show
 
-  // TODO: test order update
+  // TODO: test thing update
 
-  // TODO: test order destroy
+  // TODO: test thing destroy
 
 });
 
@@ -49,7 +49,7 @@ describe('Service: OrderService', function () {
  * Test data
  * @type {*}
  */
-var test_order_one = {
+var test_thing_one = {
     "purchase_number": 100,
     "created_at": "2014-11-15T23:58:48.333Z",
     "name": "ovni",
@@ -58,7 +58,7 @@ var test_order_one = {
     "_id": "5467e8b88a4f0313533ef420",
     "__v": 0
   }
-  , test_order_two = {
+  , test_thing_two = {
     "purchase_number": 101,
     "created_at": "2014-11-15T23:58:58.358Z",
     "name": "fi",
@@ -67,7 +67,7 @@ var test_order_one = {
     "_id": "5467e8c28a4f0313533ef421",
     "__v": 0
   }
-  , test_order_three = {
+  , test_thing_three = {
     "purchase_number": 102,
     "created_at": "2014-11-15T23:59:08.355Z",
     "name": "visow",
@@ -77,7 +77,7 @@ var test_order_one = {
     "__v": 0
   }
 /*
- , test_new_order = {
+ , test_new_thing = {
  "purchase_number": 109,
  "created_at": "2014-11-15T23:59:08.359Z",
  "name": "fjjwoe",
@@ -87,10 +87,10 @@ var test_order_one = {
  "__v": 0
  }
  */
-  , test_order_index = [
-    test_order_one,
-    test_order_two,
-    test_order_three
+  , test_thing_index = [
+    test_thing_one,
+    test_thing_two,
+    test_thing_three
   ]
   ;
 

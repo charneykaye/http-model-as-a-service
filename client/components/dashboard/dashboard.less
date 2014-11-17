@@ -1,10 +1,10 @@
 @import '../global';
 
-.order_selection {
+.thing_selection {
   color: @normal-text-color;
   cursor: pointer;
   border: 1px solid;
-  border-color: @order-border-top-color @order-border-right-color @order-border-bottom-color @order-border-left-color;
+  border-color: @thing-border-top-color @thing-border-right-color @thing-border-bottom-color @thing-border-left-color;
   background-color: lighten(@pop-color, 50);
   &:hover {
     color: @invert-text-color;
@@ -17,20 +17,20 @@
   }
 }
 
-.order_dashboard {
+.thing_dashboard {
 
   h1 {
     a.btn.create {
-      .order_selection;
+      .thing_selection;
       margin-left: 1em;
       padding: 0.3em 0.7em;
     }
   }
 
-  ul.list_of_orders {
+  ul.list_of_things {
     padding-left: 0;
     li {
-      .order_selection;
+      .thing_selection;
       font-weight: bold;
       padding: 0.5em;
       list-style: none;
@@ -38,7 +38,7 @@
     }
   }
 
-  .current_order {
+  .current_thing {
     .choices {
       .btn {
         &.left {
