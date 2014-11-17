@@ -13,6 +13,7 @@
  * Test data
  * @type {*}
  */
+  /*
 var test_thing = {
     "unique_number": 100,
     "created_at": "2014-11-15T23:58:48.333Z",
@@ -23,6 +24,7 @@ var test_thing = {
     "__v": 0
   }
   ;
+  */
 
 /**
  * Client Tests implement Karma + Jasmine
@@ -62,19 +64,19 @@ describe('Controller: ThingEditorCtrl', function () {
   }));
 
   it('should Create a new Thing via the Service', function () {
-
+    // TODO: write test
   });
 
   it('should Show an Thing via the Service', function () {
-
+    // TODO: write test
   });
 
   it('should Update an Thing via the Service', function () {
-
+    // TODO: write test
   });
 
   it('should Delete an Thing via the Service', function () {
-
+    // TODO: write test
   });
 
 })

@@ -35,13 +35,21 @@ describe('Service: ThingService', function () {
     httpBackend.flush();
   });
 
-  // TODO: test thing create
+  it('should create a thing', function () {
+    // TODO: test thing create
+  });
 
-  // TODO: test thing show
+  it('should show a thing', function () {
+    // TODO: test thing show
+  });
 
-  // TODO: test thing update
+  it('should update a thing', function () {
+    // TODO: test thing update
+  });
 
-  // TODO: test thing destroy
+  it('should destroy a thing', function () {
+    // TODO: test thing destroy
+  });
 
 });
 
