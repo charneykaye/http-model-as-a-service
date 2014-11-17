@@ -13,7 +13,7 @@
  * @typedef {angular.controller} OrderEditorCtrl
  */
 angular.module('httpModelAsAServiceApp')
-  .controller('OrderEditorCtrl', function ($scope, $rootScope /* , $http, OrderService */) {
+  .controller('OrderEditorCtrl', function ($scope, $rootScope, OrderService) {
     'use strict';
 
     /** @type {Object} to hold current order data-object */
@@ -28,7 +28,7 @@ angular.module('httpModelAsAServiceApp')
      * in order to build a "View-Machine" (type of View-Controller).
      */
     /* global machina */
-    var machine_states = {}
+    var _machine = {}
     // states
       , STATE_OFFLINE = 'offline'
       , STATE_NEW = 'create'
@@ -60,7 +60,7 @@ angular.module('httpModelAsAServiceApp')
     /**
      * Editor "Offline" State
      */
-    machine_states[STATE_OFFLINE] = {
+    _machine[STATE_OFFLINE] = {
       _onEnter: function () {
         $scope.loading_id = null;
         $scope.current_order = {};
@@ -70,23 +70,23 @@ angular.module('httpModelAsAServiceApp')
     /**
      * Editor "New" State
      */
-    machine_states[STATE_NEW] = {
+    _machine[STATE_NEW] = {
       _onEnter: function () {
         $scope.loading_id = null;
         $scope.current_order = {};
       }
     };
-    machine_states[STATE_NEW][EVENT_SAVE] = function () {
+    _machine[STATE_NEW][EVENT_SAVE] = function () {
       this.transition(STATE_CREATING);
     };
-    machine_states[STATE_NEW][EVENT_CANCEL] = function () {
+    _machine[STATE_NEW][EVENT_CANCEL] = function () {
       this.transition(STATE_OFFLINE);
     };
 
     /**
      * Editor "Creating" State
      */
-    machine_states[STATE_CREATING] = {
+    _machine[STATE_CREATING] = {
       _onEnter: function () {
         // TODO: implement OrderService to create $scope.current_order
         // this.transition(STATE_DISPLAYED);
@@ -99,13 +99,18 @@ angular.module('httpModelAsAServiceApp')
     /**
      * Editor "Loading" State
      */
-    machine_states[STATE_LOADING] = {
+    _machine[STATE_LOADING] = {
       _onEnter: function () {
-        // TODO: implement OrderService to load loading_id
-        // this.transition(STATE_DISPLAYED);
-        // TODO: display flash message "loaded order"
-        // this.transition(STATE_ERROR);
-        // TODO: display flash message "order failed to load"
+        OrderService.show($scope.loading_id)
+          .success(function(record){
+            $scope.current_order = record;
+            // TODO: display flash message "loaded order"
+            this.transition(STATE_DISPLAYED);
+          })
+          .error(function(){
+            // TODO: display flash message "order failed to load"
+            this.transition(STATE_ERRORED);
+          });
       },
       onExit: function () {
         $scope.loading_id = null;
@@ -115,7 +120,7 @@ angular.module('httpModelAsAServiceApp')
     /**
      * Editor "Show" State
      */
-    machine_states[STATE_DISPLAYED] = {
+    _machine[STATE_DISPLAYED] = {
       _onEnter: function () {
       }
     };
@@ -123,7 +128,7 @@ angular.module('httpModelAsAServiceApp')
     /**
      * Editor "Saving" State
      */
-    machine_states[STATE_SAVING] = {
+    _machine[STATE_SAVING] = {
       _onEnter: function () {
         // TODO: implement OrderService to save the existing record
         // TODO: display errors on input form fields
@@ -134,7 +139,7 @@ angular.module('httpModelAsAServiceApp')
     /**
      * Editor "Errored" State
      */
-    machine_states[STATE_ERRORED] = {
+    _machine[STATE_ERRORED] = {
       _onEnter: function () {
         $scope.loading_id = null;
         $scope.current_order = {};
@@ -147,7 +152,7 @@ angular.module('httpModelAsAServiceApp')
      */
     $scope.machine = new machina.Fsm({
       initialState: STATE_OFFLINE,
-      states: machine_states
+      states: _machine
     });
 
     /**
