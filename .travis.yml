@@ -1,11 +1,14 @@
-before_script: 
+before_script:
 - npm install -g bower grunt-cli
 - bower install
-env: 
-  global: 
-  - secure: ZDQnEKCUSNExaf/g1I3LuMgXIvL4pdSx6pj9k+YqGrQhSUiMldJjXH0PxKec66vv4pI3dvFF9sbOh7MFu6X8IQwF0TSMFj1vJJc+IlG06g+Y0VSZuTtsjwhDnP1zZDQ/XyeetfsqtLrZB7J6NsXBAnJS+lc5Le4EG+Ci9h6V5hU=
-  - secure: TPL/e5skOTg2Cwp4Y5yryfTK2jKNxxRuEHhoThIHVOUb7fmmghwPoHYGMBeVDODujqyftPzmbwb0+2Q0I0oxAg3RdBgFkRhKPCzSwPUg4beAgRTcXVyhsx0F8MT1tMjcXjjpC5h6rohoOa8h1e4sLV9KVJr2ymwbytca6OFt/0w=
 language: node_js
-node_js: 
-- "0.10"
+node_js:
+- '0.10'
 services: mongodb
+HEROKU_URL:
+  secure: OLat3Gg2QSuvpdXrFqJUHw3mYfrqbskotOgj1NNyww6d/zz7wfEldYvGvvmF1sU0MOJaiKz6Eqbbvb5S2ZU/uyr3oAOhcXsoc2gohmA4rqvFy4DOp6ZYvyatAgJts68uhq5k7/psIkXkEDnRUkTdFmJEJyLu9yjjW/Qiaox6J2o=
+HEROKU_USER_NAME:
+  secure: HSYdJjN/EBXFDisCbkmxQPkWHTVu1SS1RfM7Zvc+Qba/nIe/7eR+YimoGa1486Y+a87rK32e+/AJy48HgS5eRU7aWtNZ/ay9Vidb4GM8M6a0GqzwM1YYVxLFYY9c+yEle60gqgtg1nj4OlpA14AwKdLr0V2s5k92/l1ZycYtu8g=
+HEROKU_USER_EMAIL:
+  secure: NlASSllTNg8RFxD2TrnmRkLarsb2L/UI7qvOu3AEuE/Ix93c9nidhuivE55JOTbuVZncfr1AG1R67RUFjiVzldIE/pWrvL6rla4Os34QjmTuRDxYqkBdCwktypTEYhZVBtUzEIWmp7sp8WfEFXHCNzZz0GdHtKVFVI5YPe+Tr48=
+after_success: "./deploy_heroku.sh"
