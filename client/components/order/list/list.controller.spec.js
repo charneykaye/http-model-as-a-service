@@ -1,4 +1,57 @@
 /**
+ *
+ * Using $http Model-as-a-Service in AngularJS
+ * @author Nick Kaye <nick.c.kaye@gmail.com>
+ * @repository https://github.com/nickckaye/http-model-as-a-service
+ *
+ * Simple AngularJS Example Project to demo the philosophy behind contemporary
+ * front-end construction, specifically separating out concerns of a "model",
+ * relying for our data models entirely on a JSON API.
+ *
+ * Client Tests implement Karma + Jasmine
+ */
+describe('Controller: OrderListCtrl', function () {
+  'use strict';
+  var OrderListCtrl
+    , scope
+    , $httpBackend
+    ;
+
+  // load the main module
+  beforeEach(module('httpModelAsAServiceApp'));
+
+  // inject backend
+  beforeEach(inject(function (_$httpBackend_, $controller, $rootScope) {
+    $httpBackend = _$httpBackend_;
+    $httpBackend.expectGET('/api/orders')
+      .respond(test_order_index);
+    scope = $rootScope.$new();
+    OrderListCtrl = $controller('OrderListCtrl', {
+      $scope: scope
+    });
+  }));
+
+  it('should attach a list of orders to the scope', function () {
+    $httpBackend.flush();
+    expect(scope.list_of_orders.length).toBe(test_order_index.length);
+  });
+
+  it('should create a new order', function () {
+    // TODO: test create triggers a $rootScope.$broadcast to create
+  });
+
+  it('should refresh the list of orders from the server', function () {
+    // TODO: test create triggers a OrderService call
+  });
+
+  it('should select an order from the list', function () {
+    // TODO: test select triggers a $rootScope.$broadcast to select
+    // TODO: test select assigns selected_id
+  });
+
+});
+
+/**
  * Test data
  * @type {*}
  */
@@ -29,15 +82,6 @@ var test_order_one = {
     "_id": "5467e8cc8a4f0313533ef422",
     "__v": 0
   }
-  , test_new_order = {
-    "purchase_number": 109,
-    "created_at": "2014-11-15T23:59:08.359Z",
-    "name": "fjjwoe",
-    "info": "Nuil ilwikzos raite zubatfe mu dugij ov bueka woaf sasjo ov cul dojnamdoh. Nicwobi suko hipot ma rumulamu uw. Ehemug eha vecwok degmobsav ni hun ohhuglaj ag edge fenah hotnudef gupnar ra jewopzi mil. Hojtal manwivmig vodpad pepemuh izejale car vuftahkob cebudel ce wijimuw ohofusur kaccoze wuvu aj esedoheki wevizki fufumi misva pupjalud dagvu uvo az wuhbob udeicvus. Doof geufmu ubicun husija nose.",
-    "amount": 23,
-    "_id": "563786c48aef0d31c53ef422",
-    "__v": 0
-  }
   , test_order_index = [
     test_order_one,
     test_order_two,
@@ -45,43 +89,3 @@ var test_order_one = {
   ]
   ;
 
-/**
- * Client Tests implement Karma + Jasmine
- */
-describe('Controller: OrderDashboardCtrl', function () {
-  'use strict';
-
-  // load the controller's module
-  beforeEach(module('httpModelAsAServiceApp'));
-
-  var OrderDashboardCtrl,
-    scope,
-    $httpBackend;
-
-  // Initialize the controller and a mock scope
-  beforeEach(inject(function (_$httpBackend_, $controller, $rootScope) {
-    $httpBackend = _$httpBackend_;
-    $httpBackend.expectGET('/api/orders')
-      .respond(test_order_index);
-    scope = $rootScope.$new();
-    OrderDashboardCtrl = $controller('OrderDashboardCtrl', {
-      $scope: scope
-    });
-  }));
-
-  it('should attach a list of orders to the scope', function () {
-    $httpBackend.flush();
-    expect(scope.list_of_orders.length).toBe(test_order_index.length);
-  });
-
-  it('should create a new order', function () {
-    $httpBackend.flush();
-    $httpBackend.expectPOST('/api/orders', test_new_order)
-      .respond(test_new_order);
-    $httpBackend.expectGET('/api/orders')
-      .respond(test_order_index);
-    scope.create(test_new_order);
-    $httpBackend.flush();
-  });
-
-});

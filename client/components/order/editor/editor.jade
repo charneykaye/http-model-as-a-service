@@ -1,0 +1,48 @@
+.order_editor(ng-controller="OrderEditorCtrl")
+
+  h1
+    span(ng-switch="machine.state")
+      span(ng-switch-when="offline")
+        | Hiya
+      span(ng-switch-when="create")
+        | Create Order
+      span(ng-switch-when="loading")
+        | Loading..
+      span(ng-switch-when="displayed")
+        | Order #
+        span {{ current_order.purchase_number }}
+      span(ng-switch-when="saving")
+        | Saving #
+        span {{ current_order.purchase_number }}
+        | ..
+      span(ng-switch-when="creating")
+        | Creating..
+      span(ng-switch-when="error")
+        | Error
+    .current_state(ng-bind="machine.state",ng-class="machine.state")
+
+  // Form is made with Bootstrap
+  form(role='form',ng-show="is_form()")
+
+    .form-group
+      label(for='orderName') Name
+      input#orderName.form-control(type='text', placeholder='Enter the order name',ng-model="current_order.name",required)
+
+    .form-group
+      label(for='orderInfo') Info
+      textarea#orderInfo.form-control(type='text', placeholder='Enter the order info',ng-model="current_order.info",required)
+
+    .form-group
+      label(for='orderAmount') Amount
+      input#orderAmount.form-control(type='number', placeholder='Enter the order amount',ng-model="current_order.amount",required)
+
+    hr
+
+    .form-group.choices
+      button.btn.left.btn-success(ng-click='save()') Save
+      button.btn.left.btn-default(ng-click='create()') Cancel
+      button.btn.right.btn-danger Delete
+
+  // else loading Order
+  .loading(ng-show="is_loading()")
+    progressbar.progress-striped.active(value="100",type="success")

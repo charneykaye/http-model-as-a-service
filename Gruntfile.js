@@ -395,7 +395,7 @@ module.exports = function (grunt) {
       },
       heroku: {
         options: {
-          remote: 'heroku',
+          remote: 'git@heroku.com:http-model-as-a-service.git',
           branch: 'master'
         }
       },
@@ -411,11 +411,11 @@ module.exports = function (grunt) {
     concurrent: {
       server: [
         'jade',
-        'less',
+        'less'
       ],
       test: [
         'jade',
-        'less',
+        'less'
       ],
       debug: {
         tasks: [

@@ -9,7 +9,7 @@ angular.module('httpModelAsAServiceApp')
 
     $scope.isCollapsed = true;
 
-    $scope.isActive = function(route) {
+    $scope.isActive = function (route) {
       return route === $location.path();
     };
   });

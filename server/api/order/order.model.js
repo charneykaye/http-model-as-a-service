@@ -51,10 +51,15 @@ orderSchema.pre("save", function (next) {
 /**
  * Auto-increment purchase_number
  */
-orderSchema.plugin(autoIncrement.plugin, {model: 'order', field: 'purchase_number', startAt: 100});
+orderSchema.plugin(autoIncrement.plugin, {
+  model: 'order',
+  field: 'purchase_number',
+  startAt: 100
+});
 
 /**
  * Helper to create an instance with random values (for demo site in production)
+ * @function Order.create_random
  * @param {Function} done callback
  */
 orderSchema.statics.create_random = function (done) {

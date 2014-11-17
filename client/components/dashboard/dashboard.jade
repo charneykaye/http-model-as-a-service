@@ -1,0 +1,13 @@
+// Orders Dashboard
+.container.order_dashboard(ng-controller="OrderDashboardCtrl")
+
+  // Responsive: Columns (4/8) when wide enough, else Scroll (12,12)
+  .row
+
+    // List of Orders
+    .col-lg-4.col-sm-12
+      div(ng-include='"components/order/list/list.html"')
+
+    // Show One Order
+    .col-lg-8.col-sm-12
+      div(ng-include='"components/order/editor/editor.html"')
