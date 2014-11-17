@@ -32,7 +32,7 @@ angular.module('httpModelAsAServiceApp')
      * in order to build a "View-Machine" (type of View-Controller).
      */
     /* global machina */
-    var machine_states = {}
+    var _machine = {}
     // states
       , STATE_REFRESHING = 'refreshing'
       , STATE_DISPLAYED = 'displayed'
@@ -47,7 +47,7 @@ angular.module('httpModelAsAServiceApp')
     /**
      * List "Refreshing" State
      */
-    machine_states[STATE_REFRESHING] = {
+    _machine[STATE_REFRESHING] = {
       _onEnter: function () {
         OrderService.list()
           .success(function (records) {
@@ -68,7 +68,7 @@ angular.module('httpModelAsAServiceApp')
     /**
      * List "Display" State
      */
-    machine_states[STATE_DISPLAYED] = {
+    _machine[STATE_DISPLAYED] = {
       _onEnter: function () {
         if ($scope.selected_id !== null) {
           this.transition(STATE_SELECTED);
@@ -79,7 +79,7 @@ angular.module('httpModelAsAServiceApp')
     /**
      * List "Selected" State
      */
-    machine_states[STATE_SELECTED] = {
+    _machine[STATE_SELECTED] = {
       _onEnter: function () {
       }
     };
@@ -87,7 +87,7 @@ angular.module('httpModelAsAServiceApp')
     /**
      * List "Errored" State
      */
-    machine_states[STATE_ERRORED] = {
+    _machine[STATE_ERRORED] = {
       _onEnter: function () {
       }
     };
@@ -98,7 +98,7 @@ angular.module('httpModelAsAServiceApp')
      */
     $scope.machine = new machina.Fsm({
       initialState: STATE_REFRESHING,
-      states: machine_states
+      states: _machine
     });
 
 
