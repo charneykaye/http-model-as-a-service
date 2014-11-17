@@ -115,7 +115,9 @@ angular.module('httpModelAsAServiceApp')
          */
         $scope.machine.on(EVENT_SELECT, function (_id) {
             $scope.selected_id = _id;
-            $rootScope.$broadcast('dashboard_order_select', {_id: $scope.selected_id});
+            $rootScope.$broadcast('dashboard_order_select', {
+                _id: $scope.selected_id
+            });
             this.transition(STATE_SELECTED);
         });
 
