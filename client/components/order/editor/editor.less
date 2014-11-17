@@ -4,5 +4,14 @@
 .order_editor {
   .current_state {
     .dashboard_current_state;
+    &.loading {
+      background-color: @warning;
+    }
+    &.errored {
+      background-color: @danger;
+    }
+    &.displayed {
+      background-color: @success;
+    }
   }
 }

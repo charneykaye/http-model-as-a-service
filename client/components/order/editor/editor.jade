@@ -8,7 +8,7 @@
         | Create Order
       span(ng-switch-when="loading")
         | Loading..
-      span(ng-switch-when="show")
+      span(ng-switch-when="displayed")
         | Order #
         span {{ current_order.purchase_number }}
       span(ng-switch-when="saving")
@@ -22,7 +22,7 @@
     .current_state(ng-bind="machine.state",ng-class="machine.state")
 
   // Form is made with Bootstrap
-  form(role='form')
+  form(role='form',ng-show="is_form()")
 
     .form-group
       label(for='orderName') Name
@@ -45,3 +45,4 @@
 
   // else loading Order
   .loading(ng-show="is_loading()")
+    progressbar.progress-striped.active(value="100",type="success")

@@ -13,24 +13,35 @@
  * @typedef {angular.controller} OrderEditorCtrl
  */
 angular.module('httpModelAsAServiceApp')
-  .controller('OrderEditorCtrl', function ($scope /* , $http, OrderService */) {
+  .controller('OrderEditorCtrl', function ($scope, $rootScope /* , $http, OrderService */) {
     'use strict';
+
+    /** @type {Object} to hold current order data-object */
+    $scope.current_order = {};
+
+    /** @type {*|null} to hold current loading id */
+    $scope.loading_id = null;
+
+    /**
+     * We are using a simple JavaScript implementation of a
+     * Finite State Machine (FSM) using a library called Machina
+     * in order to build a "View-Machine" (type of View-Controller).
+     */
     /* global machina */
     var machine_states = {}
-      , machine_events = {}
-      , loading_id = null
     // states
       , STATE_OFFLINE = 'offline'
       , STATE_NEW = 'create'
       , STATE_LOADING = 'loading'
-      , STATE_SHOW = 'show'
+      , STATE_DISPLAYED = 'displayed'
       , STATE_SAVING = 'saving'
       , STATE_CREATING = 'creating'
-      , STATE_ERROR = 'error'
+      , STATE_ERRORED = 'errored'
     // events
       , EVENT_LOAD = 'load'
-      , EVENT_CREATE = 'create'
       , EVENT_SAVE = 'save'
+      , EVENT_CANCEL = 'cancel'
+      , EVENT_DESTROY = 'destroy'
     // list of states where loading bar ought to be displayed
       , states_where_is_loading =
         [
@@ -38,17 +49,21 @@ angular.module('httpModelAsAServiceApp')
           STATE_LOADING,
           STATE_SAVING
         ]
+    // list of states where input form ought to be displayed
+      , states_where_is_form =
+        [
+          STATE_NEW,
+          STATE_DISPLAYED
+        ]
       ;
-
-    /** @property {Object} */
-    $scope.current_order = {};
 
     /**
      * Editor "Offline" State
      */
     machine_states[STATE_OFFLINE] = {
-      start: function () {
-        this.transition(STATE_NEW);
+      _onEnter: function () {
+        $scope.loading_id = null;
+        $scope.current_order = {};
       }
     };
 
@@ -56,9 +71,16 @@ angular.module('httpModelAsAServiceApp')
      * Editor "New" State
      */
     machine_states[STATE_NEW] = {
-      save: function () {
-        this.transition(STATE_CREATING);
+      _onEnter: function () {
+        $scope.loading_id = null;
+        $scope.current_order = {};
       }
+    };
+    machine_states[STATE_NEW][EVENT_SAVE] = function () {
+      this.transition(STATE_CREATING);
+    };
+    machine_states[STATE_NEW][EVENT_CANCEL] = function () {
+      this.transition(STATE_OFFLINE);
     };
 
     /**
@@ -67,15 +89,8 @@ angular.module('httpModelAsAServiceApp')
     machine_states[STATE_CREATING] = {
       _onEnter: function () {
         // TODO: implement OrderService to create $scope.current_order
-      },
-
-      success: function () {
-        this.transition(STATE_SHOW);
+        // this.transition(STATE_DISPLAYED);
         // TODO: display flash message "order created"
-      },
-
-      error: function () {
-        this.transition(STATE_NEW);
         // TODO: display errors on input form fields
         // TODO: display flash message "order failed to load"
       }
@@ -87,28 +102,20 @@ angular.module('httpModelAsAServiceApp')
     machine_states[STATE_LOADING] = {
       _onEnter: function () {
         // TODO: implement OrderService to load loading_id
-      },
-
-      success: function () {
-        this.transition(STATE_SHOW);
+        // this.transition(STATE_DISPLAYED);
         // TODO: display flash message "loaded order"
-      },
-
-      error: function () {
-        this.transition(STATE_ERROR);
+        // this.transition(STATE_ERROR);
         // TODO: display flash message "order failed to load"
       },
-
       onExit: function () {
-        loading_id = null;
+        $scope.loading_id = null;
       }
-
     };
 
     /**
      * Editor "Show" State
      */
-    machine_states[STATE_SHOW] = {
+    machine_states[STATE_DISPLAYED] = {
       _onEnter: function () {
       }
     };
@@ -119,27 +126,19 @@ angular.module('httpModelAsAServiceApp')
     machine_states[STATE_SAVING] = {
       _onEnter: function () {
         // TODO: implement OrderService to save the existing record
-      },
-
-      success: function () {
-        this.transition(STATE_SHOW);
-      },
-
-      error: function () {
-        this.transition(STATE_SHOW);
         // TODO: display errors on input form fields
         // TODO: display flash message "order failed to save"
       }
     };
 
     /**
-     * Load an order
-     * @param id
+     * Editor "Errored" State
      */
-    machine_events[EVENT_LOAD] = function (id) {
-      loading_id = id;
-      this.transition(STATE_LOADING);
-      // TODO: cutoff any HTTP requests in-progress.
+    machine_states[STATE_ERRORED] = {
+      _onEnter: function () {
+        $scope.loading_id = null;
+        $scope.current_order = {};
+      }
     };
 
     /**
@@ -147,42 +146,50 @@ angular.module('httpModelAsAServiceApp')
      * @typedef {machina.Fsm} orderFsm
      */
     $scope.machine = new machina.Fsm({
-      initialize: function () {
-        // do stuff here if you want to perform more setup work
-        // this executes prior to any state transitions or handler invocations
-      },
-      initialState: 'offline',
-      states: machine_states,
-      eventListeners: machine_events
+      initialState: STATE_OFFLINE,
+      states: machine_states
     });
 
     /**
-     * Load an <prder>
+     * Load an order
      * @param id
      */
-    $scope.load = function (id) {
-      $scope.machine.handle(EVENT_LOAD, id);
-    };
+    $scope.machine.on(EVENT_LOAD, function (id) {
+      $scope.loading_id = id;
+      this.transition(STATE_LOADING);
+    });
 
     /**
-     * Create a new <order>
+     * View-Machine Bindings
      */
-    $scope.create = function () {
-      $scope.machine.handle(EVENT_CREATE);
-    };
-
-    /**
-     * Save the current <order>
-     */
+    $rootScope.$on('order_list_select', function (_id) {
+      $scope.machine.trigger(EVENT_LOAD, _id);
+    });
+    $rootScope.$on('order_list_create', function () {
+      $scope.machine.transition(STATE_NEW);
+    });
     $scope.save = function () {
       $scope.machine.handle(EVENT_SAVE);
     };
+    $scope.cancel = function () {
+      $scope.machine.handle(EVENT_CANCEL);
+    };
+    $scope.destroy = function () {
+      $scope.machine.handle(EVENT_DESTROY);
+    };
 
     /**
-     * Return % loaded >0 if loading, else false
+     * Return if loading board ought to be displayed
      */
     $scope.is_loading = function () {
       return states_where_is_loading.indexOf($scope.machine.state) >= 0;
+    };
+
+    /**
+     * Return whether the form ought to be displayed
+     */
+    $scope.is_form = function () {
+      return states_where_is_form.indexOf($scope.machine.state) >= 0;
     };
 
   });
