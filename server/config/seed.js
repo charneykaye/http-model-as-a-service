@@ -28,14 +28,6 @@ function records_expire_before() {
 /**
  * @param {Function} done callback
  */
-function destroy_all_records(done) {
-  Thing.find({})
-    .remove(done);
-}
-
-/**
- * @param {Function} done callback
- */
 function destroy_expired_records(done) {
   Thing.find({})
     .where('created_at').lt(records_expire_before())
@@ -78,6 +70,4 @@ function begin_seed_generation() {
  * Run the seed generation every X milliseconds
  * @type {*|Object|number}
  */
-destroy_all_records(function () {
-  begin_seed_generation();
-});
+begin_seed_generation();
