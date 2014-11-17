@@ -137,8 +137,8 @@ angular.module('httpModelAsAServiceApp')
     $scope.create = function () {
       $scope.machine.trigger(EVENT_CREATE);
     };
-    $scope.select = function (_id) {
-      $scope.machine.trigger(EVENT_SELECT, _id);
+    $scope.select = function (order) {
+      $scope.machine.trigger(EVENT_SELECT, order._id);
     };
 
   });

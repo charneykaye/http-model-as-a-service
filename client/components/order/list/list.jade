@@ -9,7 +9,7 @@
       i.fa.fa-refresh
 
   ul.list_of_orders(ng-show="list_of_orders")
-    li(ng-repeat="order in list_of_orders",ng-click="select(order._id)",ng-class="{current: selected_id === order._id}")
+    li(ng-repeat="order in list_of_orders",ng-click="select(order)",ng-class="{current: selected_id === order._id}")
       .name(ng-bind="order.name")
 
   // else loading List

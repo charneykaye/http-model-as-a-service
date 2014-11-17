@@ -105,11 +105,11 @@ angular.module('httpModelAsAServiceApp')
           .success(function(record){
             $scope.current_order = record;
             // TODO: display flash message "loaded order"
-            this.transition(STATE_DISPLAYED);
+            $scope.machine.transition(STATE_DISPLAYED);
           })
           .error(function(){
             // TODO: display flash message "order failed to load"
-            this.transition(STATE_ERRORED);
+            $scope.machine.transition(STATE_ERRORED);
           });
       },
       onExit: function () {
@@ -159,15 +159,15 @@ angular.module('httpModelAsAServiceApp')
      * Load an order
      * @param id
      */
-    $scope.machine.on(EVENT_LOAD, function (id) {
-      $scope.loading_id = id;
+    $scope.machine.on(EVENT_LOAD, function (_id) {
+      $scope.loading_id = _id;
       this.transition(STATE_LOADING);
     });
 
     /**
      * View-Machine Bindings
      */
-    $rootScope.$on('order_list_select', function (_id) {
+    $rootScope.$on('order_list_select', function (event, _id) {
       $scope.machine.trigger(EVENT_LOAD, _id);
     });
     $rootScope.$on('order_list_create', function () {

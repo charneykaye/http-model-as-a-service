@@ -62,7 +62,7 @@ angular.module('httpModelAsAServiceApp').service('OrderService', function ($http
    * @returns {HttpPromise}
    */
   OrderService.show = function (_id) {
-    return $http.get('/api/orders/' + _id);
+    return $http.get('/api/orders/' + _id.toString());
   };
 
   /**
