@@ -17,7 +17,7 @@ module.exports = function (grunt) {
     cdnify: 'grunt-google-cdn',
     protractor: 'grunt-protractor-runner',
     injector: 'grunt-asset-injector',
-    deploy: 'grunt-build-control'
+    buildcontrol: 'grunt-build-control'
   });
 
   // Time how long tasks take. Can help when optimizing build times
@@ -385,7 +385,7 @@ module.exports = function (grunt) {
       }
     },
 
-    deploy: {
+    buildcontrol: {
       options: {
         dir: 'dist',
         commit: true,

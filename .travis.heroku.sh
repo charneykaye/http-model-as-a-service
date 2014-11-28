@@ -23,7 +23,7 @@ if [[ $TRAVIS_PULL_REQUEST == "false" && $TRAVIS_BRANCH == "master" ]]
     heroku keys:clear
     echo yes | heroku keys:add
     grunt build
-    echo yes | grunt deploy:$TRAVIS_BRANCH
+    echo yes | grunt buildcontrol:$TRAVIS_BRANCH
     heroku keys:clear
 fi
 if [[ $TRAVIS_PULL_REQUEST == "false" ]]
