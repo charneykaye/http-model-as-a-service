@@ -8,10 +8,10 @@
       i.fa.fa-refresh
     .current_state(ng-bind="machine.state",ng-class="machine.state")
 
-  ul.list_of_things(ng-show="list_of_things")
+  ul.list_of_things(ng-show="machine.state==='displayed'||machine.state==='selected'")
     li(ng-repeat="thing in list_of_things",ng-click="select(thing)",ng-class="{current: selected_id === thing._id}")
       .name(ng-bind="thing.name")
 
   // else loading List
-  .loading(ng-hide="list_of_things")
+  .loading(ng-show="machine.state==='refreshing'")
     progressbar.progress-striped.active(value="100",type="success")
