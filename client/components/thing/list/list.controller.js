@@ -53,13 +53,12 @@ angular.module('httpModelAsAServiceApp')
       _onEnter: function () {
         ThingService.list()
           .success(function (records) {
-            if (records.length) {
+            if (records && records.length) {
               $scope.list_of_things = records;
-              $scope.machine.transition(STATE_DISPLAYED);
             } else {
               $scope.list_of_things = [];
-              $scope.machine.transition(STATE_SELECTED);
             }
+            $scope.machine.transition(STATE_DISPLAYED);
           })
           .error(function () {
             this.transition(STATE_ERRORED);
